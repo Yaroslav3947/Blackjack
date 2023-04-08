@@ -3,24 +3,23 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QLabel>
 
+#include <mainwindow.h>
+
+#include <Dealer.h>
+#include <Deck.h>
+#include <Game.h>
+#include <Player.h>
+#include <I_Participant.h>
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
     QMainWindow mainWindow;
 
-
-    QWidget centralWidget(&mainWindow);
-
-    QPushButton button("Hello World!", &centralWidget);
-    button.move(10, 10);
-    button.show();
-
-    QLabel label("Welcome to my Qt Application", &centralWidget);
-    label.move(10, 50);
-    label.show();
-
-    mainWindow.setCentralWidget(&centralWidget);
+    Game* game = new Game();
+    game->start();
 
     mainWindow.show();
 

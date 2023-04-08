@@ -6,13 +6,28 @@ Game::Game(QObject *parent) : QObject(parent) {
     _player = std::make_unique<Player>("Player", 100);
     _dealer = std::make_unique<Dealer>();
 }
+static QString suitToString(Card::Suit suit) {
+    switch (suit) {
+        case Card::Suit::CLUBS: return "C";
+        case Card::Suit::DIAMONDS: return "D";
+        case Card::Suit::HEARTS: return "H";
+        case Card::Suit::SPADES: return "S";
+        default: return "";
+    }
+}
 
 const int POINTS_TO_WIN = 21;
 
 void Game::start() {
+    _deck->pushCards();
     _deck->shuffle();
 
     dealCards();
+    qDebug() << "LIST:";
+    for(const auto &x : _deck->getCards()) {
+        qDebug() << x.getValue() << " " << suitToString(x.getSuit());
+    }
+    qDebug() << "Size: " << _deck->getCards().size();
 
     playerTurn();
 
@@ -23,10 +38,14 @@ void Game::start() {
 
 void Game::dealCards() {
     _player->addCard(_deck->dealCard());
+//    qDebug() << "Rank: " << _deck->dealCard()->getRank();
     _player->addCard(_deck->dealCard());
+//    qDebug() << "Rank: " << _deck->dealCard()->getRank();
 
     _dealer->addCard(_deck->dealCard());
+//    qDebug() << "Rank: " << _deck->dealCard()->getRank();
     _dealer->addCard(_deck->dealCard());
+//    qDebug() << "Rank: " << _deck->dealCard()->getRank();
 }
 
 void Game::playerTurn() {
