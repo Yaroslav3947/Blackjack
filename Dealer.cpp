@@ -1,43 +1,41 @@
-//#include "Dealer.h"
+#include "Dealer.h"
 
-//Dealer::Dealer() {}
+Dealer::Dealer() : I_Participant("Dealer", 100) {
+}
 
-//Dealer::~Dealer() {}
+void Dealer::addCard(std::shared_ptr<Card> card) {
+    _hand.append(card);
+}
 
-//void Dealer::addCard(std::unique_ptr<Card> card) {
-//    m_hand.push_back(std::move(card));
-//}
+int Dealer::getHandValue() const {
+    const int POINTS_TO_WIN = 21;
+    int value = 0;
+    int aceCount = 0;
 
-//QList<std::unique_ptr<Card>> Dealer::getHand() const {
-//    return m_hand;
-//}
+    for (const auto &card : _hand) {
+        value += card->getValue();
 
-//int Dealer::getHandValue() const {
-//    int value = 0;
-//    int aceCount = 0;
+        if (card->isAce()) {
+            ++aceCount;
+        }
+    }
 
-//    for (const auto& card : m_hand) {
-//        if (card->getRank() == Card::Rank::ACE) {
-//            ++aceCount;
-//        }
-//        value += card->getBlackjackValue();
-//    }
+    while (value > POINTS_TO_WIN && aceCount > 0) {
+        value -= 10;
+        --aceCount;
+    }
 
-//    while (value > 21 && aceCount > 0) {
-//        value -= 10;
-//        --aceCount;
-//    }
+    return value;
+}
 
-//    return value;
-//}
+void Dealer::clearHand() {
+    _hand.clear();
+}
 
-//void Dealer::clearHand() {
-//    m_hand.clear();
-//}
-
-//std::unique_ptr<Card> Dealer::getFirstCard() const {
-//    if (m_hand.empty()) {
-//        return nullptr;
-//    }
-//    return std::make_unique<Card>(Card::Suit::NONE, Card::Rank::NONE, ":/images/card_back.png", ":/images/card_back.png");
-//}
+std::unique_ptr<Card> Dealer::getTopCard() const {
+    if (_hand.size() > 0) {
+        return std::make_unique<Card>(*_hand[0]);
+    } else {
+        return nullptr;
+    }
+}

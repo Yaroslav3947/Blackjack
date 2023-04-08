@@ -1,5 +1,5 @@
-#ifndef PARTICIPANT_H
-#define PARTICIPANT_H
+#ifndef I_PARTICIPANT_H
+#define I_PARTICIPANT_H
 
 #include "Card.h"
 
@@ -7,22 +7,22 @@
 #include <QString>
 #include <memory>
 
-class Participant {
+class I_Participant {
 public:
-    Participant(const QString &name, int balance);
-    virtual ~Participant();
+    I_Participant(const QString &name, int balance);
+    virtual ~I_Participant() = default;
 
-    QString getName() const {return this->m_name;};
+    QString getName() const {return this->_name;};
     virtual void addCard(std::shared_ptr<Card> card) = 0;
     virtual QList<std::shared_ptr<Card>> getHand() const = 0;
     virtual int getHandValue() const = 0;
     virtual void clearHand() = 0;
-    int getBalance() const {return m_balance;};
+    int getBalance() const {return _balance;};
     void adjustBalance(int amount);
 
 private:
-    QString m_name;
-    int m_balance;
+    QString _name;
+    int _balance;
 };
 
-#endif // PARTICIPANT_H
+#endif // I_PARTICIPANT_H

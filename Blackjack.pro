@@ -13,7 +13,7 @@ SOURCES += \
     Dealer.cpp \
     Deck.cpp \
     Game.cpp \
-    Participant.cpp \
+    I_Participant.cpp \
     Player.cpp \
     main.cpp \
     mainwindow.cpp
@@ -23,7 +23,7 @@ HEADERS += \
     Dealer.h \
     Deck.h \
     Game.h \
-    Participant.h \
+    I_Participant.h \
     Player.h \
     mainwindow.h
 

@@ -7,28 +7,28 @@
 #include <memory>
 #include "Card.h"
 
-class Player : public QObject
-{
+class Player : public QObject {
     Q_OBJECT
 public:
-    explicit Player(const QString& name, int balance, QObject *parent = nullptr);
-    ~Player();
+    explicit Player(const QString &name, int balance, QObject *parent = nullptr);
+    ~Player() = default;
 
-    void addCard(std::unique_ptr<Card> card);
-    QList<std::unique_ptr<Card>> getHand() const;
+    void addCard(std::shared_ptr<Card> card);
+    QList<std::shared_ptr<Card>> getHand() const {return this->_hand;};
     int getHandValue() const;
     void clearHand();
-    int getBalance() const;
+    int getBalance() const{return _balance;};
     void adjustBalance(int amount);
 
 signals:
+    void balanceChanged(int newBalance);
 
 public slots:
 
 private:
-    QString m_name;
-    int m_balance;
-    QList<std::unique_ptr<Card>> m_hand;
+    QString _name;
+    int _balance;
+    QList<std::shared_ptr<Card>> _hand;
 };
 
 #endif // PLAYER_H

@@ -7,18 +7,17 @@
 #include <random>
 #include <algorithm>
 
-class Deck
-{
+class Deck {
 public:
     Deck() = default;
     void shuffle();
-    Card drawCard();
+    std::shared_ptr<Card> dealCard();
     int cardsLeft() const;
     ~Deck() = default;
 
 private:
-    std::vector<Card> m_cards;
-    int m_nextCardIndex;
+    std::vector<Card> _cards;
+    int _nextCardIndex;
 };
 
 #endif // DECK_H
