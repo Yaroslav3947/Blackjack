@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <Game.h>
+#include <qstring.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,8 +17,10 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_shuffleButton_clicked();
 
 private:
+    std::shared_ptr<Game> game;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H

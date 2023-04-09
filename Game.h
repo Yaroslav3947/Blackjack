@@ -11,19 +11,22 @@ class Game : public QObject {
     Q_OBJECT
 public:
     explicit Game(QObject *parent = nullptr);
-
-public slots:
     void start();
-
-private:
-    std::unique_ptr<Deck> _deck;
-    std::unique_ptr<Player> _player;
-    std::unique_ptr<Dealer> _dealer;
-
     void dealCards();
     void playerTurn();
     void dealerTurn();
     void determineWinner();
+    const int POINTS_TO_WIN = 21;
+    Player *getPlayer() const { return _player.get(); }
+    Dealer *getDealer() const { return _dealer.get(); }
+    Deck *getDeck() const { return _deck.get(); }
+signals:
+    void balanceChanged(int balance);
+private:
+    std::unique_ptr<Deck> _deck;
+    std::unique_ptr<Player> _player;
+    std::unique_ptr<Dealer> _dealer;
 };
+
 
 #endif // GAME_H

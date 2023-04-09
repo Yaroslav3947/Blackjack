@@ -16,9 +16,7 @@ static QString suitToString(Card::Suit suit) {
         default: return "";
     }
 }
-static std::string rankToString(Card::Rank rank) {
-    return std::to_string(static_cast<int>(rank));
-}
+
 
 
 const int POINTS_TO_WIN = 21;
