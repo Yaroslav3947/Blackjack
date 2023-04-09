@@ -2,10 +2,10 @@
 
 static std::string suitToString(Card::Suit suit) {
     switch (suit) {
-        case Card::Suit::CLUBS: return "C";
-        case Card::Suit::DIAMONDS: return "D";
-        case Card::Suit::HEARTS: return "H";
-        case Card::Suit::SPADES: return "S";
+        case Card::Suit::CLUBS: return "clubs";
+        case Card::Suit::DIAMONDS: return "diamonds";
+        case Card::Suit::HEARTS: return "hearts";
+        case Card::Suit::SPADES: return "spades";
         default: return "";
     }
 }
@@ -22,9 +22,9 @@ static std::string rankToString(Card::Rank rank) {
         case Card::Rank::EIGHT: return "8";
         case Card::Rank::NINE: return "9";
         case Card::Rank::TEN: return "10";
-        case Card::Rank::JACK: return "J";
-        case Card::Rank::QUEEN: return "Q";
-        case Card::Rank::KING: return "K";
+        case Card::Rank::JACK: return "11";
+        case Card::Rank::QUEEN: return "12";
+        case Card::Rank::KING: return "13";
         default: return "";
     }
 }
@@ -35,14 +35,15 @@ void Deck::pushCards() {
             Card::Suit suit = static_cast<Card::Suit>(s);
             Card::Rank rank = static_cast<Card::Rank>(r);
 
-            QString frontImageFilePath = QDir::currentPath() + "/images/cards/" +
-                                          QString::fromStdString(suitToString(suit)) +
+            QString frontImageFilePath = "C:/Users/Yaroslav/Desktop/images/cards/" +
                                           QString::fromStdString(rankToString(rank)) +
+                                          "_of_" +
+                                          QString::fromStdString(suitToString(suit)) +
                                           ".png";
 
-            QString backImageFilePath;
+//            qDebug() << frontImageFilePath;
 
-            _cards.push_back({rank, suit, frontImageFilePath, backImageFilePath});
+            _cards.push_back({rank, suit, frontImageFilePath});
         }
     }
 }
@@ -60,9 +61,10 @@ std::shared_ptr<Card> Deck::dealCard() {
         throw std::out_of_range("No more cards in the deck!");
     }
     auto card = std::make_shared<Card>(_cards[_nextCardIndex]);
-    _nextCardIndex++;
+    _cards.erase(_cards.begin() + _nextCardIndex);
     return card;
 }
+
 
 int Deck::cardsLeft() const {
     return _cards.size() - _nextCardIndex;

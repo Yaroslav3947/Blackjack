@@ -1,15 +1,31 @@
 #include "Card.h"
 
-Card::Card(Rank rank, Suit suit, const QString &frontImageFilePath, const QString &backImageFilePath) :
-    _rank(rank), _suit(suit), _frontImage(frontImageFilePath), _backImage(backImageFilePath) {
+Card::Card(Rank rank, Suit suit, const QString &frontImageFilePath) :
+    _rank(rank), _suit(suit), _frontImage(frontImageFilePath) {
 }
 
-int Card::getValue() const {
-    if (_rank >= Rank::TEN) {
-        return 10;
-    } else if (_rank == Rank::ACE) {
-        return 11;
-    } else {
-        return _rank;
+int Card::getValue() const
+{
+    switch (_rank) {
+        case ACE:
+            return 1;
+        case TWO:
+            return 2;
+        case THREE:
+            return 3;
+        case FOUR:
+            return 4;
+        case FIVE:
+            return 5;
+        case SIX:
+            return 6;
+        case SEVEN:
+            return 7;
+        case EIGHT:
+            return 8;
+        case NINE:
+            return 9;
+        default:
+            return 10;
     }
 }

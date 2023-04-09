@@ -1,5 +1,6 @@
 #include "Dealer.h"
 
+#include <qdebug.h>
 Dealer::Dealer() : I_Participant("Dealer", 100) {
 }
 
@@ -11,7 +12,6 @@ int Dealer::getHandValue() const {
     const int POINTS_TO_WIN = 21;
     int value = 0;
     int aceCount = 0;
-
     for (const auto &card : _hand) {
         value += card->getValue();
 

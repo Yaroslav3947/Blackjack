@@ -14,7 +14,7 @@ public:
     };
     enum Rank {
         ACE = 1,
-        TWO,
+        TWO = 2,
         THREE,
         FOUR,
         FIVE,
@@ -28,7 +28,7 @@ public:
         KING
     };
 
-    Card(Rank rank, Suit suit, const QString &frontImageFilePath, const QString &backImageFilePath);
+    Card(Rank rank, Suit suit, const QString &frontImageFilePath);
     ~Card() = default;
     bool isAce() const{return this->_rank == Rank::ACE;};
     int getValue() const;
@@ -41,7 +41,7 @@ private:
     Rank _rank;
     Suit _suit;
     QPixmap _frontImage;
-    QPixmap _backImage;
+    QPixmap _backImage = QPixmap("backImage.png");
 };
 
 #endif // CARD_H

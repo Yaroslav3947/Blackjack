@@ -52,10 +52,10 @@ DISTFILES += \
     ../../images/cards/13_of_diamonds.png \
     ../../images/cards/13_of_hearts.png \
     ../../images/cards/13_of_spades.png \
-    ../../images/cards/14_of_clubs.png \
-    ../../images/cards/14_of_diamonds.png \
-    ../../images/cards/14_of_hearts.png \
-    ../../images/cards/14_of_spades.png \
+    ../../images/cards/1_of_clubs.png \
+    ../../images/cards/1_of_diamonds.png \
+    ../../images/cards/1_of_hearts.png \
+    ../../images/cards/1_of_spades.png \
     ../../images/cards/2_of_clubs.png \
     ../../images/cards/2_of_diamonds.png \
     ../../images/cards/2_of_hearts.png \

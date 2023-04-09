@@ -12,8 +12,6 @@ class Game : public QObject {
 public:
     explicit Game(QObject *parent = nullptr);
 
-signals:
-
 public slots:
     void start();
 

@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <qdebug.h>
+
 Player::Player(const QString &name, int balance, QObject *parent)
     : QObject(parent), _name(name), _balance(balance) {
 }
