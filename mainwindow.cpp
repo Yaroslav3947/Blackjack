@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this),
     game = std::make_shared<Game>();
     game->getDeck()->pushCards();
-    game->getDeck()->shuffle();
+    this->startShuffle();
 }
 
 MainWindow::~MainWindow() {
@@ -42,7 +42,16 @@ static std::string suitToString(Card::Suit suit) {
     }
 }
 
-void MainWindow::on_shuffleButton_clicked()
+void setCardPixmap(QLabel *label, std::shared_ptr<Card> card) {
+    QPixmap pixmap("C:/Users/Yaroslav/Desktop/images/cards/" +
+                   QString::fromStdString(rankToString(card->getRank())) +
+                   "_of_" +
+                   QString::fromStdString(suitToString(card->getSuit())) +
+                   ".png");
+    label->setPixmap(pixmap);
+}
+
+void MainWindow::startShuffle()
 {
     game->getDeck()->shuffle();
     game->dealCards();
@@ -50,43 +59,50 @@ void MainWindow::on_shuffleButton_clicked()
     auto playerCards = game->getPlayer()->getHand();
     auto dealerCards = game->getDealer()->getHand();
 
-    if (playerCards.size() > 0) {
-        QPixmap playerCard1("C:/Users/Yaroslav/Desktop/images/cards/" +
-                            QString::fromStdString(rankToString(playerCards[0]->getRank())) +
-                            "_of_" +
-                            QString::fromStdString(suitToString(playerCards[0]->getSuit())) +
-                            ".png");
-        ui->playerCard1->setPixmap(playerCard1);
+    auto playerSum = game->getPlayer()->getHandValue();
+    auto dealerSum = game->getDealer()->getHandValue();
 
+    ui->playerSumLabel->setText(QString(" %1").arg(playerSum));
+    ui->dealerSumLabel->setText(QString(" %1").arg(dealerSum));
+
+    if (playerCards.size() > 0) {
+        setCardPixmap(ui->playerCard1, playerCards[0]);
     }
 
     if (playerCards.size() > 1) {
-        QPixmap playerCard2("C:/Users/Yaroslav/Desktop/images/cards/" +
-                            QString::fromStdString(rankToString(playerCards[1]->getRank())) +
-                            "_of_" +
-                            QString::fromStdString(suitToString(playerCards[1]->getSuit())) +
-                            ".png");
-        ui->playerCard2->setPixmap(playerCard2);
+        setCardPixmap(ui->playerCard2, playerCards[1]);
     }
 
-    // Set the dealer's cards labels
     if (dealerCards.size() > 0) {
-        QPixmap dealerCard1("C:/Users/Yaroslav/Desktop/images/cards/" +
-                            QString::fromStdString(rankToString(dealerCards[0]->getRank())) +
-                            "_of_" +
-                            QString::fromStdString(suitToString(dealerCards[0]->getSuit())) +
-                            ".png");
-        ui->dealerCard1->setPixmap(dealerCard1);
+        setCardPixmap(ui->dealerCard1, dealerCards[0]);
     }
 
-    if (dealerCards.size() > 1) {
-        QPixmap dealerCard2("C:/Users/Yaroslav/Desktop/images/cards/" +
-                            QString::fromStdString(rankToString(dealerCards[1]->getRank())) +
-                            "_of_" +
-                            QString::fromStdString(suitToString(dealerCards[1]->getSuit())) +
-                            ".png");
-        ui->dealerCard2->setPixmap(dealerCard2);
-    }
 }
 
+
+
+void MainWindow::on_hitButton_clicked()
+{
+    auto cardToAdd = game->getDeck()->dealCard();
+    game->getPlayer()->addCard(cardToAdd);
+
+    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+
+    auto playerCards = game->getPlayer()->getHand();
+        int numCards = playerCards.size();
+        if (numCards == 3) {
+            setCardPixmap(ui->playerCard3, playerCards[2]);
+        } else if (numCards == 4) {
+           setCardPixmap(ui->playerCard4, playerCards[3]);
+        }
+
+        if (game->getPlayer()->isBust()) {
+                ui->hitButton->setEnabled(false);
+                ui->standButton->setEnabled(false);
+                setCardPixmap(ui->dealerCard2, playerCards[1]);
+
+//               player that they have lost
+            }
+
+}
 

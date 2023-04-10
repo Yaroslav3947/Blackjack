@@ -17,7 +17,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_shuffleButton_clicked();
+    void startShuffle();
+
+    void on_hitButton_clicked();
 
 private:
     std::shared_ptr<Game> game;

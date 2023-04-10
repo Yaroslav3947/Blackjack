@@ -19,6 +19,7 @@ public:
     void clearHand();
     int getBalance() const{return _balance;};
     void adjustBalance(int amount);
+    bool isBust() const;
 
 signals:
     void balanceChanged(int newBalance);

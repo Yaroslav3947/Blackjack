@@ -38,3 +38,7 @@ void Player::adjustBalance(int amount) {
     _balance += amount;
     emit balanceChanged(_balance);
 }
+
+bool Player::isBust() const {
+    return getHandValue() > 21;
+}
