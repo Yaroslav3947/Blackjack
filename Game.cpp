@@ -7,109 +7,44 @@ Game::Game(QObject *parent) : QObject(parent) {
     _player = std::make_unique<Player>("Player", 100);
     _dealer = std::make_unique<Dealer>();
 }
-static QString suitToString(Card::Suit suit) {
-    switch (suit) {
-        case Card::Suit::CLUBS: return "C";
-        case Card::Suit::DIAMONDS: return "D";
-        case Card::Suit::HEARTS: return "H";
-        case Card::Suit::SPADES: return "S";
-        default: return "";
-    }
-}
-
-
-
-const int POINTS_TO_WIN = 21;
-
-void Game::start() {
-    //TODO: implement multithreading
-    _deck->pushCards();
-    _deck->shuffle();
-
-    dealCards();
-    qDebug() << "LIST:";
-    for(const auto &x : _deck->getCards()) {
-        qDebug() << x.getValue() << " " << suitToString(x.getSuit());
-    }
-
-    playerTurn();
-
-    dealerTurn();
-
-    determineWinner();
+void Game::reset() {
+    _player->clearHand();
+    _dealer->clearHand();
 }
 
 void Game::dealCards() {
-    _player->addCard(_deck->dealCard());
-    qDebug() << "Random value: (P)" << _player->getHand()[0]->getValue();
-
 
     _player->addCard(_deck->dealCard());
-    qDebug() << "Random value: (P)" << _player->getHand()[1]->getValue();
-    qDebug() << "Hand Value: (P)" << _player->getHandValue();
-
+    _player->addCard(_deck->dealCard());
 
     _dealer->addCard(_deck->dealCard());
-    qDebug() << "Random value: (D) " << _dealer->getHand()[0]->getValue();
-    _dealer->addCard(_deck->dealCard());
-    qDebug() << "Random value: (D)" << _dealer->getHand()[1]->getValue();
-    qDebug() << "Hand Value: (D)" << _dealer->getHandValue();
-}
-
-void Game::playerTurn() {
-    while (_player->getHandValue() < POINTS_TO_WIN) {
-        qDebug() << "Player hand:" << _player->getHandValue();
-        qDebug() << "Dealer hand:" << _dealer->getHandValue();
-//        qDebug() << "Dealer top card:" << _dealer->getHand().front()->getValue();
-        bool hit = true;
-
-        if (hit) {
-            auto cardToAdd = _deck->dealCard();
-            _player->addCard(cardToAdd);
-            qDebug() << " + " << cardToAdd->getValue() << "to player";
-        } else {
-            // Stands
-            break;
-        }
-    }
-
-    qDebug() << "Player hand(last):" << _player->getHandValue();
 }
 
 void Game::dealerTurn() {
-    while (_dealer->getHandValue() < 17) { // we can calculate the % of win by putting different numbers
+    while (_dealer->getHandValue() < 18) { // we can calculate the % of win by putting different numbers
         auto cardToAdd = _deck->dealCard();
         _dealer->addCard(cardToAdd);
-
-        qDebug() << "Dealer + " << cardToAdd->getValue();
-        qDebug() << "Dealer hand:" << _dealer->getHandValue();
     }
-
-    qDebug() << "Dealer hand(last):" << _dealer->getHandValue();
 }
-
 Game::Winner Game::determineWinner() {
-    int playerHandValue = _player->getHandValue();
-    int dealerHandValue = _dealer->getHandValue();
+    const int POINTS_FOR_VICTORY = 10;
+
+    auto playerHandValue = _player->getHandValue();
+    auto dealerHandValue = _dealer->getHandValue();
 
     if (playerHandValue > POINTS_TO_WIN) {
-        qDebug() << "Player busts, dealer wins";
-        _player->adjustBalance(-10);
+        _player->adjustBalance(-POINTS_FOR_VICTORY);
         return Winner::DEALER;
     } else if (dealerHandValue > POINTS_TO_WIN) {
-        qDebug() << "Dealer busts, player wins";
-        _player->adjustBalance(10);
+        _player->adjustBalance(POINTS_FOR_VICTORY);
         return Winner::PLAYER;
     } else if (playerHandValue > dealerHandValue) {
-        qDebug() << "Player wins, dealer loses";
-        _player->adjustBalance(10);
+        _player->adjustBalance(POINTS_FOR_VICTORY);
         return Winner::PLAYER;
     } else if (dealerHandValue > playerHandValue) {
-        qDebug() << "Dealer wins, player loses";
-        _player->adjustBalance(-10);
+        _player->adjustBalance(-POINTS_FOR_VICTORY);
         return Winner::DEALER;
     } else {
-        qDebug() << "Tie";
         return Winner::TIE;
     }
 }

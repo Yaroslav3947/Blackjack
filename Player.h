@@ -24,8 +24,6 @@ public:
 signals:
     void balanceChanged(int newBalance);
 
-public slots:
-
 private:
     QString _name;
     int _balance;

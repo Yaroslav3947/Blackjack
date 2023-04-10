@@ -13,8 +13,8 @@ void Player::addCard(std::shared_ptr<Card> card) {
 
 int Player::getHandValue() const {
     const int MAX_VALUE_ACE = 11;
-    int value = 0;
-    bool hasAce = false;
+    auto value = 0;
+    auto hasAce = false;
 
     for (const auto &card : _hand) {
         if (card->getRank() == Card::Rank::ACE) {
@@ -36,9 +36,9 @@ void Player::clearHand() {
 
 void Player::adjustBalance(int amount) {
     _balance += amount;
-    emit balanceChanged(_balance);
 }
 
 bool Player::isBust() const {
-    return getHandValue() > 21;
+    const int POINTS_TO_WIN = 21;
+    return getHandValue() > POINTS_TO_WIN;
 }

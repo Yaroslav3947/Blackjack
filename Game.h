@@ -16,17 +16,14 @@ public:
             TIE
     };
     explicit Game(QObject *parent = nullptr);
-    void start();
+    void reset();
     void dealCards();
-    void playerTurn();
     void dealerTurn();
     Game::Winner determineWinner();
     const int POINTS_TO_WIN = 21;
     Player *getPlayer() const { return _player.get(); }
     Dealer *getDealer() const { return _dealer.get(); }
     Deck *getDeck() const { return _deck.get(); }
-signals:
-    void balanceChanged(int balance);
 private:
     std::unique_ptr<Deck> _deck;
     std::unique_ptr<Player> _player;

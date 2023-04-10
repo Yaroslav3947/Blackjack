@@ -10,8 +10,8 @@ void Dealer::addCard(std::shared_ptr<Card> card) {
 
 int Dealer::getHandValue() const {
     const int POINTS_TO_WIN = 21;
-    int value = 0;
-    int aceCount = 0;
+    auto value = 0;
+    auto aceCount = 0;
     for (const auto &card : _hand) {
         value += card->getValue();
 

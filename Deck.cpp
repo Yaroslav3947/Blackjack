@@ -40,14 +40,10 @@ void Deck::pushCards() {
                                           "_of_" +
                                           QString::fromStdString(suitToString(suit)) +
                                           ".png";
-
-//            qDebug() << frontImageFilePath;
-
             _cards.push_back({rank, suit, frontImageFilePath});
         }
     }
 }
-
 
 void Deck::shuffle() {
     std::random_device rd;

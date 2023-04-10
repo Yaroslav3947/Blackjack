@@ -7,6 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
     game = std::make_shared<Game>();
     game->getDeck()->pushCards();
     this->startShuffle();
+    game->dealerTurn();
+    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
+    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+
 }
 
 MainWindow::~MainWindow() {
@@ -18,8 +22,8 @@ static std::string rankToString(Card::Rank rank) {
         case Card::Rank::ACE: return "1";
         case Card::Rank::TWO: return "2";
         case Card::Rank::THREE: return "3";
-        case Card::Rank::FOUR: return "4";
         case Card::Rank::FIVE: return "5";
+    case Card::Rank::FOUR: return "4";
         case Card::Rank::SIX: return "6";
         case Card::Rank::SEVEN: return "7";
         case Card::Rank::EIGHT: return "8";
@@ -60,10 +64,8 @@ void MainWindow::startShuffle()
     auto dealerCards = game->getDealer()->getHand();
 
     auto playerSum = game->getPlayer()->getHandValue();
-    auto dealerSum = game->getDealer()->getHandValue();
 
     ui->playerSumLabel->setText(QString(" %1").arg(playerSum));
-    ui->dealerSumLabel->setText(QString(" %1").arg(dealerSum));
 
     if (playerCards.size() > 0) {
         setCardPixmap(ui->playerCard1, playerCards[0]);
@@ -79,46 +81,68 @@ void MainWindow::startShuffle()
 
 }
 
-
-
-void MainWindow::on_hitButton_clicked()
-{
+void MainWindow::on_hitButton_clicked() {
     auto cardToAdd = game->getDeck()->dealCard();
     game->getPlayer()->addCard(cardToAdd);
 
-    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+    updatePlayerInfo();
 
-    auto playerCards = game->getPlayer()->getHand();
-        int numCards = playerCards.size();
-        if (numCards == 3) {
-            setCardPixmap(ui->playerCard3, playerCards[2]);
-        } else if (numCards == 4) {
-           setCardPixmap(ui->playerCard4, playerCards[3]);
-        }
-
-        if (game->getPlayer()->isBust()) {
-                ui->hitButton->setEnabled(false);
-                ui->standButton->setEnabled(false);
-                setCardPixmap(ui->dealerCard2, playerCards[1]);
-
-                ui->messageLabel->setText("Player wins!");
-            }
-
+    if (game->getPlayer()->isBust()) {
+        endGame("Dealer wins!");
+    }
 }
 
+void MainWindow::on_standButton_clicked() {
 
-void MainWindow::on_standButton_clicked()
-{
-    game->dealerTurn();
+    updateDealerInfo();
 
     auto winner = game->determineWinner();
 
     if (winner == Game::Winner::PLAYER) {
-        ui->messageLabel->setText("Player wins!");
+        endGame("Player wins!");
     } else if (winner == Game::Winner::DEALER) {
-        ui->messageLabel->setText("Dealer wins!");
+        endGame("Dealer wins!");
     } else {
-        ui->messageLabel->setText("Push!");
+        endGame("Push!");
     }
 }
+
+void MainWindow::updatePlayerInfo() {
+    auto playerCards = game->getPlayer()->getHand();
+    auto  numCards = playerCards.size();
+
+    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+
+    if (numCards == 3) {
+        setCardPixmap(ui->playerCard3, playerCards[2]);
+    } else if (numCards == 4) {
+        setCardPixmap(ui->playerCard4, playerCards[3]);
+    }
+}
+
+void MainWindow::updateDealerInfo() {
+    auto dealerCards = game->getDealer()->getHand();
+    auto numCards = dealerCards.size();
+
+    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getHandValue()));
+
+    setCardPixmap(ui->dealerCard2, dealerCards[1]);
+
+    if (numCards >= 3) {
+        setCardPixmap(ui->dealerCard3, dealerCards[2]);
+    } else if (numCards >= 4) {
+        setCardPixmap(ui->dealerCard4, dealerCards[3]);
+    }
+}
+
+void MainWindow::endGame(const QString &message) {
+    updateDealerInfo();
+    ui->messageLabel->setText(message);
+    ui->hitButton->setEnabled(false);
+    ui->standButton->setEnabled(false);
+    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+
+}
+
+
 

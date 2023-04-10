@@ -4,8 +4,7 @@ Card::Card(Rank rank, Suit suit, const QString &frontImageFilePath) :
     _rank(rank), _suit(suit), _frontImage(frontImageFilePath) {
 }
 
-int Card::getValue() const
-{
+int Card::getValue() const {
     switch (_rank) {
         case ACE:
             return 1;

@@ -10,15 +10,17 @@
 class I_Participant {
 public:
     I_Participant(const QString &name, int balance);
-    virtual ~I_Participant() = default;
 
-    QString getName() const {return this->_name;};
+    virtual void clearHand() = 0;
+    virtual int getHandValue() const = 0;
     virtual void addCard(std::shared_ptr<Card> card) = 0;
     virtual QList<std::shared_ptr<Card>> getHand() const = 0;
-    virtual int getHandValue() const = 0;
-    virtual void clearHand() = 0;
-    int getBalance() const {return _balance;};
+
     void adjustBalance(int amount);
+    int getBalance() const {return _balance;};
+    QString getName() const {return this->_name;};
+
+    virtual ~I_Participant() = default;
 
 private:
     QString _name;
