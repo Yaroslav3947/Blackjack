@@ -18,23 +18,12 @@ MainWindow::~MainWindow() {
 }
 
 static std::string rankToString(Card::Rank rank) {
-    switch (rank) {
-        case Card::Rank::ACE: return "1";
-        case Card::Rank::TWO: return "2";
-        case Card::Rank::THREE: return "3";
-        case Card::Rank::FIVE: return "5";
-    case Card::Rank::FOUR: return "4";
-        case Card::Rank::SIX: return "6";
-        case Card::Rank::SEVEN: return "7";
-        case Card::Rank::EIGHT: return "8";
-        case Card::Rank::NINE: return "9";
-        case Card::Rank::TEN: return "10";
-        case Card::Rank::JACK: return "11";
-        case Card::Rank::QUEEN: return "12";
-        case Card::Rank::KING: return "13";
-        default: return "";
-    }
+    static const std::string rankStrings[] = {
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
+    };
+    return rankStrings[static_cast<int>(rank)];
 }
+
 
 static std::string suitToString(Card::Suit suit) {
     switch (suit) {
@@ -103,7 +92,7 @@ void MainWindow::on_standButton_clicked() {
     } else if (winner == Game::Winner::DEALER) {
         endGame("Dealer wins!");
     } else {
-        endGame("Push!");
+        endGame("Tie!");
     }
 }
 
@@ -141,7 +130,6 @@ void MainWindow::endGame(const QString &message) {
     ui->hitButton->setEnabled(false);
     ui->standButton->setEnabled(false);
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
-
 }
 
 
