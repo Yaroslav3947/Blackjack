@@ -10,12 +10,17 @@
 class Game : public QObject {
     Q_OBJECT
 public:
+    enum class Winner {
+            PLAYER,
+            DEALER,
+            TIE
+    };
     explicit Game(QObject *parent = nullptr);
     void start();
     void dealCards();
     void playerTurn();
     void dealerTurn();
-    void determineWinner();
+    Game::Winner determineWinner();
     const int POINTS_TO_WIN = 21;
     Player *getPlayer() const { return _player.get(); }
     Dealer *getDealer() const { return _dealer.get(); }

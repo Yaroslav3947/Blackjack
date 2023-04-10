@@ -88,25 +88,29 @@ void Game::dealerTurn() {
     qDebug() << "Dealer hand(last):" << _dealer->getHandValue();
 }
 
-void Game::determineWinner() {
+Game::Winner Game::determineWinner() {
     int playerHandValue = _player->getHandValue();
     int dealerHandValue = _dealer->getHandValue();
 
     if (playerHandValue > POINTS_TO_WIN) {
         qDebug() << "Player busts, dealer wins";
         _player->adjustBalance(-10);
+        return Winner::DEALER;
     } else if (dealerHandValue > POINTS_TO_WIN) {
         qDebug() << "Dealer busts, player wins";
         _player->adjustBalance(10);
+        return Winner::PLAYER;
     } else if (playerHandValue > dealerHandValue) {
-        qDebug() << "Player wins, Dealer busts";
+        qDebug() << "Player wins, dealer loses";
         _player->adjustBalance(10);
-    }
-    else if (dealerHandValue > playerHandValue) {
-        qDebug() << "Dealer wins, Player busts";
+        return Winner::PLAYER;
+    } else if (dealerHandValue > playerHandValue) {
+        qDebug() << "Dealer wins, player loses";
         _player->adjustBalance(-10);
+        return Winner::DEALER;
     } else {
         qDebug() << "Tie";
+        return Winner::TIE;
     }
-    emit _player->balanceChanged(_player->getBalance());
 }
+

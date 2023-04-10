@@ -101,8 +101,24 @@ void MainWindow::on_hitButton_clicked()
                 ui->standButton->setEnabled(false);
                 setCardPixmap(ui->dealerCard2, playerCards[1]);
 
-//               player that they have lost
+                ui->messageLabel->setText("Player wins!");
             }
 
+}
+
+
+void MainWindow::on_standButton_clicked()
+{
+    game->dealerTurn();
+
+    auto winner = game->determineWinner();
+
+    if (winner == Game::Winner::PLAYER) {
+        ui->messageLabel->setText("Player wins!");
+    } else if (winner == Game::Winner::DEALER) {
+        ui->messageLabel->setText("Dealer wins!");
+    } else {
+        ui->messageLabel->setText("Push!");
+    }
 }
 
