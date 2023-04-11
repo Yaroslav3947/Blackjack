@@ -18,6 +18,7 @@ static std::string rankToString(Card::Rank rank) {
 }
 
 void Deck::pushCards() {
+    this->_cards.clear();
     for (int s = Card::Suit::HEARTS; s <= Card::Suit::SPADES; s++) {
         for (int r = Card::Rank::ACE; r <= Card::Rank::KING; r++) {
             Card::Suit suit = static_cast<Card::Suit>(s);

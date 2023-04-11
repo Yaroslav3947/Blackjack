@@ -5,27 +5,37 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
     game = std::make_shared<Game>();
-    game->getDeck()->pushCards();
     this->startShuffle();
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
-
 }
 
 MainWindow::~MainWindow() {
     delete ui;
 }
 
-static std::string rankToString(Card::Rank rank) {
-    static const std::string rankStrings[] = {
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
-    };
-    return rankStrings[static_cast<int>(rank)];
+static std::string rankToString(const Card::Rank &rank) {
+    switch (rank) {
+        case Card::Rank::ACE: return "1";
+        case Card::Rank::TWO: return "2";
+        case Card::Rank::THREE: return "3";
+        case Card::Rank::FOUR: return "4";
+        case Card::Rank::FIVE: return "5";
+        case Card::Rank::SIX: return "6";
+        case Card::Rank::SEVEN: return "7";
+        case Card::Rank::EIGHT: return "8";
+        case Card::Rank::NINE: return "9";
+        case Card::Rank::TEN: return "10";
+        case Card::Rank::JACK: return "11";
+        case Card::Rank::QUEEN: return "12";
+        case Card::Rank::KING: return "13";
+        default: return "";
+    }
 }
 
 
-static std::string suitToString(Card::Suit suit) {
+static std::string suitToString(const Card::Suit &suit) {
     switch (suit) {
         case Card::Suit::CLUBS: return "clubs";
         case Card::Suit::DIAMONDS: return "diamonds";
@@ -35,17 +45,18 @@ static std::string suitToString(Card::Suit suit) {
     }
 }
 
-void setCardPixmap(QLabel *label, std::shared_ptr<Card> card) {
-    QPixmap pixmap("C:/Users/Yaroslav/Desktop/images/cards/" +
-                   QString::fromStdString(rankToString(card->getRank())) +
-                   "_of_" +
-                   QString::fromStdString(suitToString(card->getSuit())) +
-                   ".png");
+void setCardPixmap(QLabel *label, const std::shared_ptr<Card> &card) {
+    const auto fileName = "C:/Users/Yaroslav/Desktop/images/cards/" +
+        rankToString(card->getRank()) + "_of_" +
+        suitToString(card->getSuit()) + ".png";
+    QPixmap pixmap(QString::fromStdString(fileName));
     label->setPixmap(pixmap);
 }
 
+
 void MainWindow::startShuffle()
 {
+    game->getDeck()->pushCards();
     game->getDeck()->shuffle();
     game->dealCards();
 
@@ -132,5 +143,22 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
 }
 
-
+void MainWindow::on_playAgainButton_clicked() {
+    const auto backImagePath = "C:/Users/Yaroslav/Desktop/images/cards/backImage.png";
+    game->reset();
+    qDebug() << "Size: " << game->getPlayer()->getHand().size();
+    startShuffle();
+    ui->hitButton->setEnabled(true);
+    ui->standButton->setEnabled(true);
+    game->dealerTurn();
+    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
+    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+    ui->messageLabel->setText("");
+    ui->dealerCard2->setPixmap(QPixmap(backImagePath));
+    ui->dealerCard3->setPixmap(QPixmap(backImagePath));
+    ui->dealerCard4->setPixmap(QPixmap(backImagePath));
+    ui->playerCard3->setPixmap(QPixmap(backImagePath));
+    ui->playerCard4->setPixmap(QPixmap(backImagePath));
+}
 

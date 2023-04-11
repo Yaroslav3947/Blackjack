@@ -23,6 +23,8 @@ private slots:
     void endGame(const QString &message);
     void on_standButton_clicked();
 
+    void on_playAgainButton_clicked();
+
 private:
     std::shared_ptr<Game> game;
     Ui::MainWindow *ui;

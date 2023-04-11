@@ -14,7 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(6, 102, 38)</string>
+   <string notr="true">background-color: rgb(13, 94, 13);
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="hitButton">
@@ -27,7 +28,14 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(90, 145, 60)</string>
+     <string notr="true">background-color: #2196f3; /* blue */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+</string>
     </property>
     <property name="text">
      <string>hit</string>
@@ -43,7 +51,14 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(90, 145, 60)</string>
+     <string notr="true">background-color: #f44336; 
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+</string>
     </property>
     <property name="text">
      <string>stand</string>
@@ -57,6 +72,10 @@
       <width>131</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
     </property>
     <property name="text">
      <string/>
@@ -77,6 +96,10 @@
       <height>201</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -95,6 +118,10 @@
       <width>131</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
     </property>
     <property name="text">
      <string/>
@@ -115,6 +142,10 @@
       <height>201</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -131,11 +162,16 @@
       <x>410</x>
       <y>250</y>
       <width>281</width>
-      <height>21</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 18pt &quot;Segoe Script&quot;;</string>
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
     </property>
     <property name="text">
      <string>Player</string>
@@ -154,7 +190,12 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 18pt &quot;Segoe Script&quot;;</string>
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
     </property>
     <property name="text">
      <string>Dealer</string>
@@ -174,6 +215,10 @@
       <width>131</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
     </property>
     <property name="text">
      <string/>
@@ -197,6 +242,10 @@
       <height>201</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -218,6 +267,10 @@
       <width>131</width>
       <height>201</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
     </property>
     <property name="text">
      <string/>
@@ -241,6 +294,10 @@
       <height>201</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -261,7 +318,12 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">back-ground color: rgb(195, 255, 194)</string>
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
     </property>
     <property name="text">
      <string/>
@@ -277,7 +339,12 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">back-ground color: rgb(195, 255, 194)</string>
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
     </property>
     <property name="text">
      <string/>
@@ -299,27 +366,22 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="balanceMessage">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>540</y>
-      <width>71</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>balance</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="balanceLabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>560</y>
-      <width>91</width>
-      <height>21</height>
+      <x>30</x>
+      <y>620</y>
+      <width>141</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -333,6 +395,15 @@
       <width>181</width>
       <height>71</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #8bc34a;
+border: none;
+color: white;
+padding: 10px 20px;
+font-size: 16px;
+font-weight: bold;
+border-radius: 10px;</string>
     </property>
     <property name="text">
      <string>Play again</string>
@@ -353,7 +424,6 @@
    <zorder>dealerSumLabel</zorder>
    <zorder>playerSumLabel</zorder>
    <zorder>messageLabel</zorder>
-   <zorder>balanceMessage</zorder>
    <zorder>balanceLabel</zorder>
    <zorder>playAgainButton</zorder>
   </widget>

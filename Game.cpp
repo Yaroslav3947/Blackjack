@@ -10,6 +10,7 @@ Game::Game(QObject *parent) : QObject(parent) {
 void Game::reset() {
     _player->clearHand();
     _dealer->clearHand();
+    this->getDeck()->pushCards();
 }
 
 void Game::dealCards() {
