@@ -88,4 +88,57 @@ DISTFILES += \
     ../../images/cards/9_of_diamonds.png \
     ../../images/cards/9_of_hearts.png \
     ../../images/cards/9_of_spades.png \
-    ../../images/cards/green.png
+    ../../images/cards/green.png \
+    images/backImage.png \
+    images/cards/10_of_clubs.png \
+    images/cards/10_of_diamonds.png \
+    images/cards/10_of_hearts.png \
+    images/cards/10_of_spades.png \
+    images/cards/11_of_clubs.png \
+    images/cards/11_of_diamonds.png \
+    images/cards/11_of_hearts.png \
+    images/cards/11_of_spades.png \
+    images/cards/12_of_clubs.png \
+    images/cards/12_of_diamonds.png \
+    images/cards/12_of_hearts.png \
+    images/cards/12_of_spades.png \
+    images/cards/13_of_clubs.png \
+    images/cards/13_of_diamonds.png \
+    images/cards/13_of_hearts.png \
+    images/cards/13_of_spades.png \
+    images/cards/1_of_clubs.png \
+    images/cards/1_of_diamonds.png \
+    images/cards/1_of_hearts.png \
+    images/cards/1_of_spades.png \
+    images/cards/2_of_clubs.png \
+    images/cards/2_of_diamonds.png \
+    images/cards/2_of_hearts.png \
+    images/cards/2_of_spades.png \
+    images/cards/3_of_clubs.png \
+    images/cards/3_of_diamonds.png \
+    images/cards/3_of_hearts.png \
+    images/cards/3_of_spades.png \
+    images/cards/4_of_clubs.png \
+    images/cards/4_of_diamonds.png \
+    images/cards/4_of_hearts.png \
+    images/cards/4_of_spades.png \
+    images/cards/5_of_clubs.png \
+    images/cards/5_of_diamonds.png \
+    images/cards/5_of_hearts.png \
+    images/cards/5_of_spades.png \
+    images/cards/6_of_clubs.png \
+    images/cards/6_of_diamonds.png \
+    images/cards/6_of_hearts.png \
+    images/cards/6_of_spades.png \
+    images/cards/7_of_clubs.png \
+    images/cards/7_of_diamonds.png \
+    images/cards/7_of_hearts.png \
+    images/cards/7_of_spades.png \
+    images/cards/8_of_clubs.png \
+    images/cards/8_of_diamonds.png \
+    images/cards/8_of_hearts.png \
+    images/cards/8_of_spades.png \
+    images/cards/9_of_clubs.png \
+    images/cards/9_of_diamonds.png \
+    images/cards/9_of_hearts.png \
+    images/cards/9_of_spades.png
