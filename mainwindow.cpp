@@ -174,11 +174,11 @@ void MainWindow::updateDealerInfo() {
     ui->dealerCard2->show();
     setCardPixmap(ui->dealerCard2, dealerCards[1]);
 
-    if (numCards == 3) {
+    if (numCards >= 3) {
         updateDealerCard(ui->dealerCard3, dealerCards[2]);
-    } else if (numCards == 4) {
+    } else if (numCards >= 4) {
         updateDealerCard(ui->dealerCard4, dealerCards[3]);
-    } else if (numCards == 5) {
+    } else if (numCards >= 5) {
         updateDealerCard(ui->dealerCard5, dealerCards[4]);
     }
 }

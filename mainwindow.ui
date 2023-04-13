@@ -224,7 +224,7 @@ border: 2px solid black; </string>
     </property>
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>480</x>
       <y>290</y>
       <width>131</width>
       <height>201</height>
@@ -250,7 +250,7 @@ border: 2px solid black; </string>
     </property>
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>510</x>
       <y>290</y>
       <width>131</width>
       <height>201</height>
@@ -393,7 +393,7 @@ QPushButton:hover {
     </property>
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>540</x>
       <y>290</y>
       <width>131</width>
       <height>201</height>
