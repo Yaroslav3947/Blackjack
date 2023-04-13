@@ -14,7 +14,6 @@ void Game::reset() {
 }
 
 void Game::dealCards() {
-
     _player->addCard(_deck->dealCard());
     _player->addCard(_deck->dealCard());
 

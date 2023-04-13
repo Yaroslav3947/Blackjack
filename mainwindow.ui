@@ -387,6 +387,58 @@ QPushButton:hover {
      <string>Play again</string>
     </property>
    </widget>
+   <widget class="QLabel" name="playerCard5">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>290</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dealerCard5">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>40</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -402,6 +454,8 @@ QPushButton:hover {
    <zorder>messageLabel</zorder>
    <zorder>balanceLabel</zorder>
    <zorder>playAgainButton</zorder>
+   <zorder>playerCard5</zorder>
+   <zorder>dealerCard5</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

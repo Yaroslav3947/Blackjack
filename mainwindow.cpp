@@ -1,11 +1,10 @@
 #include "mainwindow.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
     game = std::make_shared<Game>();
-    this->startShuffle();
+    this->start();
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
@@ -79,8 +78,7 @@ void setCardPixmap(QLabel *label, const std::shared_ptr<Card> &card) {
 }
 
 
-void MainWindow::startShuffle()
-{
+void MainWindow::start() {
     game->getDeck()->pushCards();
     game->getDeck()->shuffle();
     game->dealCards();
@@ -92,18 +90,10 @@ void MainWindow::startShuffle()
 
     ui->playerSumLabel->setText(QString(" %1").arg(playerSum));
 
-    if (playerCards.size() > 0) {
-        setCardPixmap(ui->playerCard1, playerCards[0]);
-    }
+    setCardPixmap(ui->playerCard1, playerCards[0]);
+    setCardPixmap(ui->playerCard2, playerCards[1]);
+    setCardPixmap(ui->dealerCard1, dealerCards[0]);
 
-    if (playerCards.size() > 1) {
-        setCardPixmap(ui->playerCard2, playerCards[1]);
-    }
-
-    if (dealerCards.size() > 0) {
-        setCardPixmap(ui->dealerCard1, dealerCards[0]);
-    }
-    ////TODO: rm if
 }
 
 void MainWindow::on_hitButton_clicked() {
@@ -113,6 +103,7 @@ void MainWindow::on_hitButton_clicked() {
     updatePlayerInfo();
 
     if (game->getPlayer()->isBust()) {
+        updateDealerInfo();
         endGame("Dealer wins!");
     }
 }
@@ -137,47 +128,58 @@ void MainWindow::hideCards() {
     ui->playerCard2->hide();
     ui->playerCard3->hide();
     ui->playerCard4->hide();
+    ui->playerCard5->hide();
     ui->dealerCard1->hide();
     ui->dealerCard2->hide();
     ui->dealerCard3->hide();
     ui->dealerCard4->hide();
+    ui->dealerCard5->hide();
+}
+
+void changeSumLabel(QLabel *label, std::shared_ptr<Game> game, const std::string &participant) {
+    if (participant == "Player") {
+        label->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+    } else if (participant == "Dealer") {
+        label->setText(QString(" %1").arg(game->getDealer()->getHandValue()));
+    }
 }
 
 void MainWindow::updatePlayerInfo() {
     auto playerCards = game->getPlayer()->getHand();
-    auto  numCards = playerCards.size();
+    auto numCards = playerCards.size();
 
-    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+    changeSumLabel(ui->playerSumLabel, game, "Player");
 
     if (numCards == 3) {
-        ui->playerCard3->show();
-        cardAnimation(ui->playerCard3, QPoint(0, 0));
-        setCardPixmap(ui->playerCard3, playerCards[2]);
+        updateDealerCard(ui->playerCard3, playerCards[2]);
     } else if (numCards == 4) {
-        ui->playerCard4->show();
-        cardAnimation(ui->playerCard4, QPoint(0, 0));
-        setCardPixmap(ui->playerCard4, playerCards[3]);
+        updateDealerCard(ui->playerCard4, playerCards[3]);
+    } else if (numCards == 5) {
+        updateDealerCard(ui->playerCard5, playerCards[4]);
     }
+}
+
+void MainWindow::updateDealerCard(QLabel* cardLabel, std::shared_ptr<Card> card) {
+    cardLabel->show();
+    cardAnimation(cardLabel, QPoint(0, 0));
+    setCardPixmap(cardLabel, card);
 }
 
 void MainWindow::updateDealerInfo() {
     auto dealerCards = game->getDealer()->getHand();
     auto numCards = dealerCards.size();
 
-    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getHandValue()));
+    changeSumLabel(ui->dealerSumLabel, game, "Dealer");
 
     ui->dealerCard2->show();
     setCardPixmap(ui->dealerCard2, dealerCards[1]);
 
     if (numCards == 3) {
-        ui->dealerCard3->show();
-        cardAnimation(ui->dealerCard3, QPoint(0, 0)); //TODO: fix bug
-        setCardPixmap(ui->dealerCard3, dealerCards[2]);
-
+        updateDealerCard(ui->dealerCard3, dealerCards[2]);
     } else if (numCards == 4) {
-        ui->dealerCard4->show();
-        cardAnimation(ui->dealerCard4, QPoint(0, 0));
-        setCardPixmap(ui->dealerCard4, dealerCards[3]);
+        updateDealerCard(ui->dealerCard4, dealerCards[3]);
+    } else if (numCards == 5) {
+        updateDealerCard(ui->dealerCard5, dealerCards[4]);
     }
 }
 
@@ -188,25 +190,37 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
 }
 
-void MainWindow::on_playAgainButton_clicked() {
+void setCardPixmap(QLabel* cardLabel, const QString &imagePath) {
+    cardLabel->setPixmap(QPixmap(imagePath));
+}
+
+void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, QLabel* card5, QLabel* card6, QLabel* card7) {
     const auto backImagePath = "C:/Users/Yaroslav/Desktop/images/cards/backImage.png";
+    setCardPixmap(card1, backImagePath);
+    setCardPixmap(card2, backImagePath);
+    setCardPixmap(card3, backImagePath);
+    setCardPixmap(card4, backImagePath);
+    setCardPixmap(card5, backImagePath);
+    setCardPixmap(card6, backImagePath);
+    setCardPixmap(card7, backImagePath);
+}
+
+void MainWindow::on_playAgainButton_clicked() {
+
     game->reset();
     hideCards();
-    qDebug() << "Size: " << game->getPlayer()->getHand().size();
-    startShuffle();
+    start();
     ui->hitButton->setEnabled(true);
     ui->standButton->setEnabled(true);
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
-    ui->playerSumLabel->setText(QString(" %1").arg(game->getPlayer()->getHandValue()));
+    changeSumLabel(ui->playerSumLabel, game, "Player");
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
     ui->messageLabel->setText("");
-    ui->dealerCard2->setPixmap(QPixmap(backImagePath));
-    ui->dealerCard3->setPixmap(QPixmap(backImagePath));
-    ui->dealerCard4->setPixmap(QPixmap(backImagePath));
-    ui->playerCard3->setPixmap(QPixmap(backImagePath));
-    ui->playerCard4->setPixmap(QPixmap(backImagePath));
-
+    setBackPixmap(ui->dealerCard2, ui->dealerCard3,
+                  ui->dealerCard4, ui->dealerCard5,
+                  ui->playerCard3, ui->playerCard4,
+                  ui->playerCard5);
 
         QTimer::singleShot(250, this, [this]() {
             ui->playerCard1->show();

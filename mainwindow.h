@@ -19,7 +19,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void startShuffle();
+    void start();
     void updateDealerInfo();
     void updatePlayerInfo();
     void on_hitButton_clicked();
@@ -28,6 +28,7 @@ private slots:
     void hideCards();
     void on_playAgainButton_clicked();
     void cardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
+    void updateDealerCard(QLabel* cardLabel, std::shared_ptr<Card> card);
 
 private:
     std::shared_ptr<Game> game;
