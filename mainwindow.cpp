@@ -38,6 +38,14 @@ void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int
     animation->start();
 }
 
+void MainWindow::reverseCardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
+    QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
+    animation->setStartValue(cardLabel->pos());
+    animation->setEndValue(destination);
+    animation->setDuration(duration);
+    animation->setEasingCurve(QEasingCurve::OutCirc);
+    animation->start();
+}
 
 static std::string rankToString(const Card::Rank &rank) {
     switch (rank) {
@@ -70,13 +78,17 @@ static std::string suitToString(const Card::Suit &suit) {
 }
 
 void setCardPixmap(QLabel *label, const std::shared_ptr<Card> &card) {
-    const auto fileName = "C:/Users/Yaroslav/Desktop/images/cards/" +
+    const auto fileName = ":/images/cards/" +
         rankToString(card->getRank()) + "_of_" +
         suitToString(card->getSuit()) + ".png";
     QPixmap pixmap(QString::fromStdString(fileName));
     label->setPixmap(pixmap);
 }
 
+void setBackImageCardPixmap(QLabel* cardLabel) {
+    const auto backImagePath = ":/images/cards/backImage.png";
+    cardLabel->setPixmap(QPixmap(backImagePath));
+}
 
 void MainWindow::start() {
     game->getDeck()->pushCards();
@@ -89,7 +101,7 @@ void MainWindow::start() {
     auto playerSum = game->getPlayer()->getHandValue();
 
     ui->playerSumLabel->setText(QString(" %1").arg(playerSum));
-
+    setBackImageCardPixmap(ui->dealerCard2);
     setCardPixmap(ui->playerCard1, playerCards[0]);
     setCardPixmap(ui->playerCard2, playerCards[1]);
     setCardPixmap(ui->dealerCard1, dealerCards[0]);
@@ -97,6 +109,10 @@ void MainWindow::start() {
 }
 
 void MainWindow::on_hitButton_clicked() {
+//    connect(ui->hitButton, &QPushButton::hovered, []() {
+//        QSound::play("");
+//    });
+
     auto cardToAdd = game->getDeck()->dealCard();
     game->getPlayer()->addCard(cardToAdd);
 
@@ -190,19 +206,17 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
 }
 
-void setCardPixmap(QLabel* cardLabel, const QString &imagePath) {
-    cardLabel->setPixmap(QPixmap(imagePath));
-}
+
 
 void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, QLabel* card5, QLabel* card6, QLabel* card7) {
-    const auto backImagePath = "C:/Users/Yaroslav/Desktop/images/cards/backImage.png";
-    setCardPixmap(card1, backImagePath);
-    setCardPixmap(card2, backImagePath);
-    setCardPixmap(card3, backImagePath);
-    setCardPixmap(card4, backImagePath);
-    setCardPixmap(card5, backImagePath);
-    setCardPixmap(card6, backImagePath);
-    setCardPixmap(card7, backImagePath);
+
+    setBackImageCardPixmap(card1);
+    setBackImageCardPixmap(card2);
+    setBackImageCardPixmap(card3);
+    setBackImageCardPixmap(card4);
+    setBackImageCardPixmap(card5);
+    setBackImageCardPixmap(card6);
+    setBackImageCardPixmap(card7);
 }
 
 void MainWindow::on_playAgainButton_clicked() {

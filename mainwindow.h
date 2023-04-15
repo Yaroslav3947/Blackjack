@@ -7,6 +7,7 @@
 #include "ui_mainwindow.h"
 #include <qpropertyanimation.h>
 #include <qtimer.h>
+//#include <QtMultimedia/QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ private slots:
     void hideCards();
     void on_playAgainButton_clicked();
     void cardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
+    void reverseCardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
     void updateDealerCard(QLabel* cardLabel, std::shared_ptr<Card> card);
 
 private:

@@ -41,7 +41,7 @@ private:
     Rank _rank;
     Suit _suit;
     QPixmap _frontImage;
-    QPixmap _backImage = QPixmap("C:/Users/Yaroslav/Desktop/images/cards/backImage.png");
+    QPixmap _backImage = QPixmap(":/images/cards/backImage.png");
 };
 
 #endif // CARD_H

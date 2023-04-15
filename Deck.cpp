@@ -24,7 +24,7 @@ void Deck::pushCards() {
             Card::Suit suit = static_cast<Card::Suit>(s);
             Card::Rank rank = static_cast<Card::Rank>(r);
 
-            QString frontImageFilePath = "C:/Users/Yaroslav/Desktop/images/cards/" +
+            QString frontImageFilePath = ":/images/cards/" +
                                           QString::fromStdString(rankToString(rank)) +
                                           "_of_" +
                                           QString::fromStdString(suitToString(suit)) +

@@ -91,7 +91,7 @@ border: 2px solid black; </string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../images/cards/backImage.png</pixmap>
+     <pixmap>cards/backImage.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
