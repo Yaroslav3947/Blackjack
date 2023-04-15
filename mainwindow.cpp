@@ -10,24 +10,28 @@ MainWindow::MainWindow(QWidget *parent)
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
     hideCards();
 
-    cardAnimation(ui->playerCard1, QPoint(0, 0));
-        ui->playerCard1->show();
-        QTimer::singleShot(500, this, [this]() {
-            ui->dealerCard1->show();
-            cardAnimation(ui->dealerCard1, QPoint(0, 0));
-        });
-        QTimer::singleShot(1000, this, [this]() {
-            ui->playerCard2->show();
-            cardAnimation(ui->playerCard2, QPoint(0, 0));
-        });
-        QTimer::singleShot(1500, this, [this]() {
-            ui->dealerCard2->show();
-            cardAnimation(ui->dealerCard2, QPoint(0, 0));
-        });
+    startCardAnimation();
+
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+void MainWindow::startCardAnimation() {
+    cardAnimation(ui->playerCard1, QPoint(0, 0));
+            ui->playerCard1->show();
+            QTimer::singleShot(500, this, [this]() {
+                ui->dealerCard1->show();
+                cardAnimation(ui->dealerCard1, QPoint(0, 0));
+            });
+            QTimer::singleShot(1000, this, [this]() {
+                ui->playerCard2->show();
+                cardAnimation(ui->playerCard2, QPoint(0, 0));
+            });
+            QTimer::singleShot(1500, this, [this]() {
+                ui->dealerCard2->show();
+                cardAnimation(ui->dealerCard2, QPoint(0, 0));
+            });
 }
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
@@ -236,22 +240,8 @@ void MainWindow::on_playAgainButton_clicked() {
                   ui->playerCard3, ui->playerCard4,
                   ui->playerCard5);
 
-        QTimer::singleShot(250, this, [this]() {
-            ui->playerCard1->show();
-            cardAnimation(ui->playerCard1, QPoint(0, 0));
-        });
+    startCardAnimation();
 
-        QTimer::singleShot(500, this, [this]() {
-            ui->dealerCard1->show();
-            cardAnimation(ui->dealerCard1, QPoint(0, 0));
-        });
-        QTimer::singleShot(1000, this, [this]() {
-            ui->playerCard2->show();
-            cardAnimation(ui->playerCard2, QPoint(0, 0));
-        });
-        QTimer::singleShot(1500, this, [this]() {
-            ui->dealerCard2->show();
-            cardAnimation(ui->dealerCard2, QPoint(0, 0));
-        });
+
 }
 

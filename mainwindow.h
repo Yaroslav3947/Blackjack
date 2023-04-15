@@ -31,6 +31,7 @@ private slots:
     void cardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
     void reverseCardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
     void updateDealerCard(QLabel* cardLabel, std::shared_ptr<Card> card);
+    void startCardAnimation();
 
 private:
     std::shared_ptr<Game> game;
