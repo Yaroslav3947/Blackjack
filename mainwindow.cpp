@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     game = std::make_shared<Game>();
     hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
-
+    ui->betLabel->setText(QString("Bet: %1").arg(0));
 }
 
 MainWindow::~MainWindow() {
@@ -38,6 +38,7 @@ void MainWindow::showAllButtonsAndLabels() {
     ui->Button_Deal->hide();
     ui->setBet100->hide();
     ui->setBet200->hide();
+    ui->setBet300->hide();
 }
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
@@ -223,9 +224,7 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
 }
 
-
 void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, QLabel* card5, QLabel* card6, QLabel* card7) {
-
     setBackImageCardPixmap(card1);
     setBackImageCardPixmap(card2);
     setBackImageCardPixmap(card3);
@@ -238,7 +237,7 @@ void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, Q
 void MainWindow::on_playAgainButton_clicked() {
     if(game->getPlayer()->isBankrupt()) {
             ui->messageLabel->setText("Game Over");
-
+        return;
     } else {
     game->reset();
     hideCards();
@@ -275,7 +274,6 @@ void MainWindow::hideAllButtonsExceptBalanceButton() {
     ui->hitButton->hide();
     ui->standButton->hide();
     ui->playAgainButton->hide();
-//    ui->balanceLabel->hide();
     ui->playerSumLabel->hide();
     ui->dealerSumLabel->hide();
 }
@@ -288,21 +286,21 @@ void MainWindow::on_setBet100_clicked() {
     int currentBetAmount = game->getPlayer()->getBet();
     currentBetAmount += 100;
     game->getPlayer()->setBet(currentBetAmount);
-        ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()- game->getPlayer()->getBet()));
+    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
 }
 
 void MainWindow::on_setBet200_clicked() {
     int currentBetAmount = game->getPlayer()->getBet();
     currentBetAmount += 200;
     game->getPlayer()->setBet(currentBetAmount);
-        ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()- game->getPlayer()->getBet()));
+    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
 }
 
 void MainWindow::on_setBet300_clicked() {
     int currentBetAmount = game->getPlayer()->getBet();
     currentBetAmount += 300;
     game->getPlayer()->setBet(currentBetAmount);
-    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
+    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
 
 }
 

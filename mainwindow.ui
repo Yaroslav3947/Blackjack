@@ -551,6 +551,27 @@ QPushButton:hover {
      <string>300</string>
     </property>
    </widget>
+   <widget class="QLabel" name="betLabel">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>620</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;</string>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -572,6 +593,7 @@ QPushButton:hover {
    <zorder>setBet100</zorder>
    <zorder>Button_Deal</zorder>
    <zorder>setBet300</zorder>
+   <zorder>betLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
