@@ -439,6 +439,118 @@ border: 2px solid black; </string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="setBet200">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>480</y>
+      <width>120</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #25a244;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #208b3a;
+}</string>
+    </property>
+    <property name="text">
+     <string>200</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="setBet100">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>480</y>
+      <width>120</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #25a244;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #208b3a;
+}</string>
+    </property>
+    <property name="text">
+     <string>100</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Button_Deal">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>340</y>
+      <width>161</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #25a244;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #208b3a;
+}</string>
+    </property>
+    <property name="text">
+     <string>Deal</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="setBet300">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>400</y>
+      <width>120</width>
+      <height>70</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #25a244;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #208b3a;
+}</string>
+    </property>
+    <property name="text">
+     <string>300</string>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -456,6 +568,10 @@ border: 2px solid black; </string>
    <zorder>playAgainButton</zorder>
    <zorder>playerCard5</zorder>
    <zorder>dealerCard5</zorder>
+   <zorder>setBet200</zorder>
+   <zorder>setBet100</zorder>
+   <zorder>Button_Deal</zorder>
+   <zorder>setBet300</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -463,7 +579,7 @@ border: 2px solid black; </string>
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

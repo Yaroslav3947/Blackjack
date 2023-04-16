@@ -4,13 +4,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
     game = std::make_shared<Game>();
-    this->start();
-    game->dealerTurn();
-    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
+    hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
-    hideCards();
-
-    startCardAnimation();
 
 }
 
@@ -32,6 +27,17 @@ void MainWindow::startCardAnimation() {
                 ui->dealerCard2->show();
                 cardAnimation(ui->dealerCard2, QPoint(0, 0));
             });
+}
+
+void MainWindow::showAllButtonsAndLabels() {
+    QList<QWidget*> widgets{ ui->hitButton, ui->standButton, ui->playAgainButton,
+                            ui->playerSumLabel, ui->dealerSumLabel };
+    for (auto widget : widgets) {
+        widget->show();
+    }
+    ui->Button_Deal->hide();
+    ui->setBet100->hide();
+    ui->setBet200->hide();
 }
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
@@ -95,6 +101,7 @@ void setBackImageCardPixmap(QLabel* cardLabel) {
 }
 
 void MainWindow::start() {
+//    showAllButtonsAndLabels();
     game->getDeck()->pushCards();
     game->getDeck()->shuffle();
     game->dealCards();
@@ -124,7 +131,13 @@ void MainWindow::on_hitButton_clicked() {
 
     if (game->getPlayer()->isBust()) {
         updateDealerInfo();
-        endGame("Dealer wins!");
+        auto winner = game->determineWinner();
+
+        if(winner == Game::Winner::DEALER){
+            endGame("Dealer wins!");
+        } else {
+            endGame("Tie!");
+        }
     }
 }
 
@@ -211,7 +224,6 @@ void MainWindow::endGame(const QString &message) {
 }
 
 
-
 void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, QLabel* card5, QLabel* card6, QLabel* card7) {
 
     setBackImageCardPixmap(card1);
@@ -224,7 +236,10 @@ void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, Q
 }
 
 void MainWindow::on_playAgainButton_clicked() {
+    if(game->getPlayer()->isBankrupt()) {
+            ui->messageLabel->setText("Game Over");
 
+    } else {
     game->reset();
     hideCards();
     start();
@@ -241,7 +256,53 @@ void MainWindow::on_playAgainButton_clicked() {
                   ui->playerCard5);
 
     startCardAnimation();
+    }
 
+
+}
+
+void MainWindow::startRound() {
+    showAllButtonsAndLabels();
+    this->start();
+    game->dealerTurn();
+    ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
+    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+    startCardAnimation();
+}
+
+void MainWindow::hideAllButtonsExceptBalanceButton() {
+    hideCards();
+    ui->hitButton->hide();
+    ui->standButton->hide();
+    ui->playAgainButton->hide();
+//    ui->balanceLabel->hide();
+    ui->playerSumLabel->hide();
+    ui->dealerSumLabel->hide();
+}
+
+void MainWindow::on_Button_Deal_clicked() {
+    startRound();
+}
+
+void MainWindow::on_setBet100_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 100;
+    game->getPlayer()->setBet(currentBetAmount);
+        ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()- game->getPlayer()->getBet()));
+}
+
+void MainWindow::on_setBet200_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 200;
+    game->getPlayer()->setBet(currentBetAmount);
+        ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()- game->getPlayer()->getBet()));
+}
+
+void MainWindow::on_setBet300_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 300;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
 
 }
 

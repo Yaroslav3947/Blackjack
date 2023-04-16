@@ -9,7 +9,17 @@ Player::Player(const QString &name, int balance, QObject *parent)
 void Player::addCard(std::shared_ptr<Card> card) {
     _hand.push_back(card);
 }
+bool isAllowedBet(const int &bet, const int &balance) {
+    return bet <= balance;
+}
 
+void Player::setBet(int bet) {
+    if(isAllowedBet(bet, this->_balance)) {
+        _bet = bet;
+    } else {
+        throw std::out_of_range("Can't set bet <= 0");
+    }
+}
 
 int Player::getHandValue() const {
     const int MAX_VALUE_ACE = 11;
@@ -41,4 +51,12 @@ void Player::adjustBalance(int amount) {
 bool Player::isBust() const {
     const int POINTS_TO_WIN = 21;
     return getHandValue() > POINTS_TO_WIN;
+}
+
+bool Player::isBankrupt() const {
+    return _balance < _bet;
+}
+
+void Player::changeBet(int amount) {
+    _bet += amount;
 }
