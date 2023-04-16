@@ -236,8 +236,8 @@ void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, Q
 
 void MainWindow::on_playAgainButton_clicked() {
     if(game->getPlayer()->isBankrupt()) {
-            ui->messageLabel->setText("Game Over");
-        return;
+        ui->messageLabel->setText("Game Over");
+        QCoreApplication::exit(0);
     } else {
     game->reset();
     hideCards();

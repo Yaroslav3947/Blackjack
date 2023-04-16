@@ -58,5 +58,58 @@
         <file>cards/13_of_hearts.png</file>
         <file>cards/13_of_spades.png</file>
         <file>cards/backImage.png</file>
+        <file>cards2/10_of_clubs.png</file>
+        <file>cards2/10_of_diamonds.png</file>
+        <file>cards2/10_of_hearts.png</file>
+        <file>cards2/10_of_spades.png</file>
+        <file>cards2/11_of_clubs.png</file>
+        <file>cards2/11_of_diamonds.png</file>
+        <file>cards2/11_of_hearts.png</file>
+        <file>cards2/11_of_spades.png</file>
+        <file>cards2/12_of_clubs.png</file>
+        <file>cards2/12_of_diamonds.png</file>
+        <file>cards2/12_of_hearts.png</file>
+        <file>cards2/12_of_spades.png</file>
+        <file>cards2/13_of_clubs.png</file>
+        <file>cards2/13_of_diamonds.png</file>
+        <file>cards2/13_of_hearts.png</file>
+        <file>cards2/13_of_spades.png</file>
+        <file>cards2/1_of_clubs.png</file>
+        <file>cards2/1_of_diamonds.png</file>
+        <file>cards2/1_of_hearts.png</file>
+        <file>cards2/1_of_spades.png</file>
+        <file>cards2/2_of_clubs.png</file>
+        <file>cards2/2_of_diamonds.png</file>
+        <file>cards2/2_of_hearts.png</file>
+        <file>cards2/2_of_spades.png</file>
+        <file>cards2/3_of_clubs.png</file>
+        <file>cards2/3_of_diamonds.png</file>
+        <file>cards2/3_of_hearts.png</file>
+        <file>cards2/3_of_spades.png</file>
+        <file>cards2/4_of_clubs.png</file>
+        <file>cards2/4_of_diamonds.png</file>
+        <file>cards2/4_of_hearts.png</file>
+        <file>cards2/4_of_spades.png</file>
+        <file>cards2/5_of_clubs.png</file>
+        <file>cards2/5_of_diamonds.png</file>
+        <file>cards2/5_of_hearts.png</file>
+        <file>cards2/5_of_spades.png</file>
+        <file>cards2/6_of_clubs.png</file>
+        <file>cards2/6_of_diamonds.png</file>
+        <file>cards2/6_of_hearts.png</file>
+        <file>cards2/6_of_spades.png</file>
+        <file>cards2/7_of_clubs.png</file>
+        <file>cards2/7_of_diamonds.png</file>
+        <file>cards2/7_of_hearts.png</file>
+        <file>cards2/7_of_spades.png</file>
+        <file>cards2/8_of_clubs.png</file>
+        <file>cards2/8_of_diamonds.png</file>
+        <file>cards2/8_of_hearts.png</file>
+        <file>cards2/8_of_spades.png</file>
+        <file>cards2/9_of_clubs.png</file>
+        <file>cards2/9_of_diamonds.png</file>
+        <file>cards2/9_of_hearts.png</file>
+        <file>cards2/9_of_spades.png</file>
+        <file>cards2/backImage.png</file>
     </qresource>
 </RCC>
