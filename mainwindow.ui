@@ -668,11 +668,11 @@ QPushButton:hover {
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
-border: 1px solid #ccc;
 padding: 5px;
 font-size: 16px;
 font-weight: bold;
 border-radius: 5px;
+color: white;
 </string>
      </property>
      <property name="text">
@@ -690,11 +690,11 @@ border-radius: 5px;
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
-border: 1px solid #ccc;
 padding: 5px;
 font-size: 16px;
 font-weight: bold;
 border-radius: 5px;
+color: white;
 </string>
      </property>
      <property name="text">
