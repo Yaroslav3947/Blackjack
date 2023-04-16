@@ -29,6 +29,16 @@ void MainWindow::startCardAnimation() {
             });
 }
 
+void betFrameAnimation(Ui::MainWindow *ui) {
+    const auto animationDuration = 1000;
+    QPair<int, int> endValuePoint(10,630);
+    QPropertyAnimation* animation = new QPropertyAnimation(ui->betFrame, "pos");
+    animation->setDuration(animationDuration);
+    animation->setStartValue(ui->betFrame->pos());
+    animation->setEndValue(QPoint(endValuePoint.first, endValuePoint.second));
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
 void MainWindow::showAllButtonsAndLabels() {
     QList<QWidget*> widgets{ ui->hitButton, ui->standButton, ui->playAgainButton,
                             ui->playerSumLabel, ui->dealerSumLabel };
@@ -36,9 +46,8 @@ void MainWindow::showAllButtonsAndLabels() {
         widget->show();
     }
     ui->Button_Deal->hide();
-    ui->setBet100->hide();
-    ui->setBet200->hide();
-    ui->setBet300->hide();
+    betFrameAnimation(ui);
+
 }
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
@@ -221,7 +230,7 @@ void MainWindow::endGame(const QString &message) {
     ui->messageLabel->setText(message);
     ui->hitButton->setEnabled(false);
     ui->standButton->setEnabled(false);
-    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+    ui->balanceLabel->setText(QString("Bank: %1").arg(game->getPlayer()->getBalance()));
 }
 
 void setBackPixmap(QLabel* card1, QLabel* card2, QLabel* card3, QLabel* card4, QLabel* card5, QLabel* card6, QLabel* card7) {
@@ -247,7 +256,7 @@ void MainWindow::on_playAgainButton_clicked() {
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
     changeSumLabel(ui->playerSumLabel, game, "Player");
-    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+    ui->balanceLabel->setText(QString("Bank: %1").arg(game->getPlayer()->getBalance()));
     ui->messageLabel->setText("");
     setBackPixmap(ui->dealerCard2, ui->dealerCard3,
                   ui->dealerCard4, ui->dealerCard5,
@@ -265,7 +274,7 @@ void MainWindow::startRound() {
     this->start();
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
-    ui->balanceLabel->setText(QString("Balance: %1").arg(game->getPlayer()->getBalance()));
+    ui->balanceLabel->setText(QString("Bank: %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
     startCardAnimation();
 }
 
@@ -282,25 +291,54 @@ void MainWindow::on_Button_Deal_clicked() {
     startRound();
 }
 
+void MainWindow::on_setBet1_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 1;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
+}
+
+void MainWindow::on_setBet5_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 5;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
+}
+
+void MainWindow::on_setBet25_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 25;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
+}
+
+void MainWindow::on_setBet50_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 50;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
+}
+
 void MainWindow::on_setBet100_clicked() {
     int currentBetAmount = game->getPlayer()->getBet();
     currentBetAmount += 100;
     game->getPlayer()->setBet(currentBetAmount);
-    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
 }
 
-void MainWindow::on_setBet200_clicked() {
+
+void MainWindow::on_setBet500_clicked() {
     int currentBetAmount = game->getPlayer()->getBet();
-    currentBetAmount += 200;
+    currentBetAmount += 500;
     game->getPlayer()->setBet(currentBetAmount);
-    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
 }
 
-void MainWindow::on_setBet300_clicked() {
-    int currentBetAmount = game->getPlayer()->getBet();
-    currentBetAmount += 300;
-    game->getPlayer()->setBet(currentBetAmount);
-    ui->betLabel->setText(QString("Bet: %1").arg(currentBetAmount));
 
+void MainWindow::on_setBet1000_clicked() {
+    int currentBetAmount = game->getPlayer()->getBet();
+    currentBetAmount += 1000;
+    game->getPlayer()->setBet(currentBetAmount);
+    ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
 }
 

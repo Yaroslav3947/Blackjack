@@ -23,9 +23,18 @@ private slots:
     void on_standButton_clicked();
     void on_playAgainButton_clicked();
     void on_Button_Deal_clicked();
-    void on_setBet100_clicked();
-    void on_setBet300_clicked();
-    void on_setBet200_clicked();
+    void on_setBet100_clicked();    
+    void on_setBet1_clicked();
+
+    void on_setBet5_clicked();
+
+    void on_setBet25_clicked();
+
+    void on_setBet50_clicked();
+
+    void on_setBet500_clicked();
+
+    void on_setBet1000_clicked();
 
 private:
     void hideAllButtonsExceptBalanceButton();
