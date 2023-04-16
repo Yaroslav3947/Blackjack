@@ -1,5 +1,4 @@
-#ifndef CARD_H
-#define CARD_H
+#pragma once
 
 #include <QString>
 #include <QPixmap>
@@ -14,7 +13,7 @@ public:
     };
     enum Rank {
         ACE = 1,
-        TWO = 2,
+        TWO,
         THREE,
         FOUR,
         FIVE,
@@ -44,4 +43,3 @@ private:
     QPixmap _backImage = QPixmap(":/images/cards/backImage.png");
 };
 
-#endif // CARD_H
