@@ -20,21 +20,21 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_hitButton_clicked();
+    void on_standButton_clicked();
+    void on_playAgainButton_clicked();
+
+private:
+    void hideCards();
     void start();
+    void endGame(const QString &message);
     void updateDealerInfo();
     void updatePlayerInfo();
-    void on_hitButton_clicked();
-    void endGame(const QString &message);
-    void on_standButton_clicked();
-    void hideCards();
-    void on_playAgainButton_clicked();
+    std::shared_ptr<Game> game;
     void cardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
     void reverseCardAnimation(QLabel* cardLabel, const QPoint& destination, int duration = 1000);
     void updateDealerCard(QLabel* cardLabel, std::shared_ptr<Card> card);
     void startCardAnimation();
-
-private:
-    std::shared_ptr<Game> game;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
