@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     game = std::make_shared<Game>();
     hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
-    ui->betLabel->setText(QString("Bet: %1").arg(0));
+    ui->betLabel->setText(QString("Bet: $ %1").arg(0));
 }
 
 MainWindow::~MainWindow() {
@@ -167,6 +167,8 @@ void MainWindow::startGame() {
     game->getDeck()->pushCards();
     game->getDeck()->shuffle();
     game->dealCards();
+    ui->playerInfoFrame->show();
+    ui->dealerInfoFrame->show();
 
     displayPlayerCards();
     displayDealerCards();
@@ -268,7 +270,7 @@ void MainWindow::startRound() {
     this->startGame();
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
-    ui->balanceLabel->setText(QString("Bank: %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
+    ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
     startCardAnimation();
 }
 
@@ -277,8 +279,8 @@ void MainWindow::hideButtonsAndLabels() {
     ui->hitButton->hide();
     ui->standButton->hide();
     ui->playAgainButton->hide();
-    ui->playerSumLabel->hide();
-    ui->dealerSumLabel->hide();
+    ui->playerInfoFrame->hide();
+    ui->dealerInfoFrame->hide();
 }
 void showDealButton(Ui::MainWindow *ui) {
     ui->Button_Deal->show();

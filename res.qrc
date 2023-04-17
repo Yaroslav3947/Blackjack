@@ -111,5 +111,11 @@
         <file>cards2/9_of_hearts.png</file>
         <file>cards2/9_of_spades.png</file>
         <file>cards2/backImage.png</file>
+        <file>greenBackGroundB.jpg</file>
+    </qresource>
+    <qresource prefix="/background"/>
+    <qresource prefix="/backGround"/>
+    <qresource prefix="/">
+        <file>greenBackGroundFinal.jpg</file>
     </qresource>
 </RCC>

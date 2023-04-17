@@ -6,15 +6,16 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>700</height>
+    <width>1014</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>BlackJack</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #155d27;
+   <string notr="true">background-color: #415d43 ;
+background-image: radial-gradient(ellipse at center, rgba(44, 110, 73, 0.8) 0%, rgba(44, 110, 73, 1) 50%, rgba(44, 110, 73, 0.8) 100%);
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -29,7 +30,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-    background-color: #25a244;
+    background-color: #18a11e;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -57,7 +58,7 @@ QPushButton:hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-    background-color: #25a244;
+    background-color: #18a11e;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -270,52 +271,6 @@ border: 2px solid black; </string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="dealerSumLabel">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>130</y>
-      <width>61</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;
-color : white;
-text-align: center;
-padding: 5px;
-font-size: 22px;
-font-weight: bold;
-background-color: rgba(255, 255, 255, 0.1);
-border-radius: 25%;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="playerSumLabel">
-    <property name="geometry">
-     <rect>
-      <x>720</x>
-      <y>370</y>
-      <width>61</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;
-color : white;
-text-align: center;
-padding: 5px;
-font-size: 22px;
-font-weight: bold;
-background-color: rgba(255, 255, 255, 0.1);
-border-radius: 25%;</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="messageLabel">
     <property name="geometry">
      <rect>
@@ -349,7 +304,7 @@ border-radius: 25%;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-    background-color: #25a244;
+    background-color: #18a11e;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -452,8 +407,14 @@ QPushButton:hover {
       <x>10</x>
       <y>420</y>
       <width>461</width>
-      <height>241</height>
+      <height>271</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 3px dotted #dce1de;
+padding: 10px;
+background-color: #05668d;
+border-radius: 10px</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -702,6 +663,124 @@ color: white;
      </property>
     </widget>
    </widget>
+   <widget class="QFrame" name="playerInfoFrame">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>370</y>
+      <width>211</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="playerSumLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>71</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: white;
+color : white;
+text-align: center;
+padding: 5px;
+font-size: 25px;
+font-weight: bold;
+background-color: rgba(255, 255, 255, 0.1);
+border-radius: 25%;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="playerTextlabel">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>91</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">  font-family: Arial;
+  text-align: center;
+  color: #32bb3e;
+  font-size: 25px;
+font-weight: bold;</string>
+     </property>
+     <property name="text">
+      <string>Player</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="dealerInfoFrame">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>110</y>
+      <width>211</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="dealerTextLabel">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>91</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">  font-family: Arial;
+  text-align: center;
+  color: #32bb3e;
+  font-size: 25px;
+font-weight: bold;</string>
+     </property>
+     <property name="text">
+      <string>Dealer</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="dealerSumLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>71</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: white;
+color : white;
+text-align: center;
+padding: 5px;
+font-size: 25px;
+font-weight: bold;
+background-color: rgba(255, 255, 255, 0.1);
+border-radius: 25%;</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -712,26 +791,31 @@ color: white;
    <zorder>dealerCard4</zorder>
    <zorder>playerCard3</zorder>
    <zorder>playerCard4</zorder>
-   <zorder>dealerSumLabel</zorder>
-   <zorder>playerSumLabel</zorder>
    <zorder>messageLabel</zorder>
    <zorder>playAgainButton</zorder>
    <zorder>playerCard5</zorder>
    <zorder>dealerCard5</zorder>
    <zorder>Button_Deal</zorder>
    <zorder>betFrame</zorder>
+   <zorder>playerInfoFrame</zorder>
+   <zorder>dealerInfoFrame</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1000</width>
+     <width>1014</width>
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuBlackJack">
+    <property name="title">
+     <string>BlackJack</string>
+    </property>
+   </widget>
+   <addaction name="menuBlackJack"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
