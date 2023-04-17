@@ -48,8 +48,7 @@ private:
     void hideButtonsAndLabels();
 
     void startCardAnimation();
-    void cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration = 1000);
-    void reverseCardAnimation(QLabel *cardLabel, const QPoint &destination, int duration = 1000);
+    void cardAnimation(QLabel *cardLabel, const QPoint &startValue, const QPoint &endValue);
 
     Ui::MainWindow *ui;
     int currentBetAmount = 0;

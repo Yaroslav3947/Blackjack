@@ -13,19 +13,19 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 void MainWindow::startCardAnimation() {
-    cardAnimation(ui->playerCard1, QPoint(0, 0));
+    cardAnimation(ui->playerCard1, ui->playerCard1->pos(), QPoint(0, 0));
             ui->playerCard1->show();
             QTimer::singleShot(500, this, [this]() {
                 ui->dealerCard1->show();
-                cardAnimation(ui->dealerCard1, QPoint(0, 0));
+                cardAnimation(ui->dealerCard1, ui->dealerCard1->pos(), QPoint(0, 0));
             });
             QTimer::singleShot(1000, this, [this]() {
                 ui->playerCard2->show();
-                cardAnimation(ui->playerCard2, QPoint(0, 0));
+                cardAnimation(ui->playerCard2, ui->playerCard2->pos(), QPoint(0, 0));
             });
             QTimer::singleShot(1500, this, [this]() {
                 ui->dealerCard2->show();
-                cardAnimation(ui->dealerCard2, QPoint(0, 0));
+                cardAnimation(ui->dealerCard2, ui->dealerCard2->pos(), QPoint(0, 0));
             });
 }
 
@@ -47,32 +47,15 @@ void reverseBetFrameAnimation(Ui::MainWindow *ui) {
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
+void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &endValue, const QPoint &startValue) {
+    const int duration = 1000;
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
-    animation->setStartValue(destination);
-    animation->setEndValue(cardLabel->pos());
+    animation->setStartValue(startValue);
+    animation->setEndValue(endValue);
     animation->setDuration(duration);
     animation->setEasingCurve(QEasingCurve::OutCirc);
-    animation->start();
-
-    connect(animation, &QPropertyAnimation::finished, [=]() {
-            delete animation;
-        });
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
-
-void MainWindow::reverseCardAnimation(QLabel *cardLabel, const QPoint &destination, int duration) {
-    QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
-    animation->setStartValue(cardLabel->pos());
-    animation->setEndValue(destination);
-    animation->setDuration(duration);
-    animation->setEasingCurve(QEasingCurve::OutCirc);
-    animation->start();
-
-    connect(animation, &QPropertyAnimation::finished, [=]() {
-            delete animation;
-        });
-}
-
 void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card) {
     label->setPixmap(card->getFrontImage());
 }
@@ -205,7 +188,7 @@ void MainWindow::updatePlayerInfo() {
 
 void MainWindow::updateCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
     cardLabel->show();
-    cardAnimation(cardLabel, QPoint(0, 0));
+    cardAnimation(cardLabel, cardLabel->pos(), QPoint(0, 0));
     setFrontImageCard(cardLabel, card);
 }
 
