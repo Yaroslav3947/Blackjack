@@ -76,7 +76,7 @@ void MainWindow::endGame(const QString &message) {
     ui->messageLabel->setText(message);
     ui->hitButton->setEnabled(false);
     ui->standButton->setEnabled(false);
-    ui->balanceLabel->setText(QString("Bank: %1").arg(game->getPlayer()->getBalance()));
+    ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
 }
 
 void MainWindow::updateDealerInfo() {

@@ -809,12 +809,6 @@ border-radius: 25%;</string>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuBlackJack">
-    <property name="title">
-     <string>BlackJack</string>
-    </property>
-   </widget>
-   <addaction name="menuBlackJack"/>
   </widget>
  </widget>
  <resources/>
