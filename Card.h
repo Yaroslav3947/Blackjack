@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <QString>
 #include <QPixmap>
 
@@ -27,19 +28,23 @@ public:
         KING
     };
 
-    Card(Rank rank, Suit suit, const QString &frontImageFilePath);
+    Card(Rank rank,
+         Suit suit,
+         const QString &frontImagePath,
+         const QPixmap &backImagePath);
     ~Card() = default;
-    bool isAce() const{return this->_rank == Rank::ACE;};
+    bool isAce() const;;
     int getValue() const;
-    Rank getRank() const {return this->_rank;};
-    Suit getSuit() const {return this->_suit;};
-    QPixmap getFrontImage() const {return this->_frontImage;};
-    QPixmap getBackImage() const {return this->_backImage;};
-
+    Rank getRank() const;;
+    Suit getSuit() const;;
+    QPixmap getBackImage() const;;
+    QPixmap getFrontImage() const;
+    QPixmap getBackImagePath() const;
+    QString getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank);
 private:
     Rank _rank;
     Suit _suit;
-    QPixmap _frontImage ;
-    QPixmap _backImage = QPixmap(":/images/cards2/backImage.png");
+    QPixmap _backImage;
+    QPixmap _frontImage;
 };
 

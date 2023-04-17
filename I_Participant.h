@@ -1,30 +1,22 @@
-#ifndef I_PARTICIPANT_H
-#define I_PARTICIPANT_H
-
-#include "Card.h"
+#pragma once
 
 #include <QList>
-#include <QString>
-#include <memory>
+#include "Card.h"
 
-class I_Participant {
+class I_Participant: public QObject {
 public:
-    I_Participant(const QString &name, int balance);
-
-    virtual void clearHand() = 0;
-    virtual int getHandValue() const = 0;
-    virtual void addCard(std::shared_ptr<Card> card) = 0;
-    virtual QList<std::shared_ptr<Card>> getHand() const = 0;
-
-    void adjustBalance(int amount);
-    int getBalance() const {return _balance;};
-    QString getName() const {return this->_name;};
-
+    I_Participant(const QString &name, const int &balance);
+    virtual void clearHand();
+    virtual int getBalance() const;
+    virtual QString getName() const;
+    virtual int getHandValue() const;
+    virtual void adjustBalance(const int &amount);
+    virtual void addCard(std::shared_ptr<Card> card);
+    virtual QList<std::shared_ptr<Card>> getHand() const;
     virtual ~I_Participant() = default;
-
-private:
+protected:
     QString _name;
     int _balance;
-};
+    QList<std::shared_ptr<Card>> _hand;
 
-#endif // I_PARTICIPANT_H
+};

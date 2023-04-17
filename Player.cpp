@@ -1,13 +1,26 @@
 #include "Player.h"
 
-#include <qdebug.h>
+Player::Player(const QString &name, const int &balance)
+    : I_Participant(name, balance) {
+}
 
-Player::Player(const QString &name, int balance, QObject *parent)
-    : QObject(parent), _name(name), _balance(balance) {
+void Player::clearHand() {
+    I_Participant::clearHand();
+}
+int Player::getHandValue() const {
+    return I_Participant::getHandValue();
+}
+
+int Player::getBalance() const {
+    return I_Participant::getBalance();
 }
 
 void Player::addCard(std::shared_ptr<Card> card) {
-    _hand.push_back(card);
+    I_Participant::addCard(card);
+}
+
+QList<std::shared_ptr<Card>> Player::getHand() const {
+    return I_Participant::getHand();
 }
 bool isAllowedBet(const int &bet, const int &balance) {
     return bet <= balance;
@@ -21,33 +34,6 @@ void Player::setBet(int bet) {
     }
 }
 
-int Player::getHandValue() const {
-    const int MAX_VALUE_ACE = 11;
-    auto value = 0;
-    auto hasAce = false;
-
-    for (const auto &card : _hand) {
-        if (card->getRank() == Card::Rank::ACE) {
-            hasAce = true;
-        }
-        value += card->getValue();
-    }
-
-    if (hasAce && value <= MAX_VALUE_ACE) {
-        value += 10;
-    }
-
-    return value;
-}
-
-void Player::clearHand() {
-    _hand.clear();
-}
-
-void Player::adjustBalance(int amount) {
-    _balance += amount;
-}
-
 bool Player::isBust() const {
     const int POINTS_TO_WIN = 21;
     return getHandValue() > POINTS_TO_WIN;
@@ -59,4 +45,12 @@ bool Player::isBankrupt() const {
 
 void Player::changeBet(int amount) {
     _bet += amount;
+}
+
+void Player::adjustBalance(const int &amount) {
+    I_Participant::adjustBalance(amount);
+}
+
+int Player::getBet() const {
+    return _bet;
 }

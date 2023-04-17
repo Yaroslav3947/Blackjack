@@ -1,22 +1,5 @@
 #include "Deck.h"
 
-static std::string suitToString(Card::Suit suit) {
-    switch (suit) {
-        case Card::Suit::CLUBS: return "clubs";
-        case Card::Suit::DIAMONDS: return "diamonds";
-        case Card::Suit::HEARTS: return "hearts";
-        case Card::Suit::SPADES: return "spades";
-        default: return "";
-    }
-}
-
-static std::string rankToString(Card::Rank rank) {
-    static const std::string rankStrings[] = {
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"
-    };
-    return rankStrings[static_cast<int>(rank)];
-}
-
 void Deck::pushCards() {
     this->_cards.clear();
     for (int s = Card::Suit::HEARTS; s <= Card::Suit::SPADES; s++) {
@@ -24,12 +7,9 @@ void Deck::pushCards() {
             Card::Suit suit = static_cast<Card::Suit>(s);
             Card::Rank rank = static_cast<Card::Rank>(r);
 
-            QString frontImageFilePath = ":/images/cards/" +
-                                          QString::fromStdString(rankToString(rank)) +
-                                          "_of_" +
-                                          QString::fromStdString(suitToString(suit)) +
-                                          ".png";
-            _cards.push_back({rank, suit, frontImageFilePath});
+            QString frontImagePath = getCard()->getFrontImagePath(suit, rank);
+            QPixmap backImagePath = getCard()->getBackImagePath();
+            _cards.push_back({rank, suit, frontImagePath, backImagePath});
         }
     }
 }
@@ -50,7 +30,3 @@ std::shared_ptr<Card> Deck::dealCard() {
     return card;
 }
 
-
-int Deck::cardsLeft() const {
-    return _cards.size() - _nextCardIndex;
-}

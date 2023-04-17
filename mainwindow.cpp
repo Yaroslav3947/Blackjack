@@ -113,6 +113,7 @@ void MainWindow::updateDealerInfo() {
         updateCard(ui->dealerCard5, dealerCards[4]);
     }
 }
+///TODO: make it using loop
 
 void MainWindow::displayPlayerCards() {
     auto playerCards = game->getPlayer()->getHand();

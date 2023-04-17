@@ -1,41 +1,27 @@
 #include "Dealer.h"
 
-#include <qdebug.h>
-Dealer::Dealer() : I_Participant("Dealer", 100) {
+Dealer::Dealer() : I_Participant("Dealer", 10000) {
 }
 
 void Dealer::addCard(std::shared_ptr<Card> card) {
     _hand.append(card);
 }
 
+QList<std::shared_ptr<Card> > Dealer::getHand() const {
+    return I_Participant::getHand();
+}
+
 int Dealer::getHandValue() const {
-    const int POINTS_TO_WIN = 21;
-    auto value = 0;
-    auto aceCount = 0;
-    for (const auto &card : _hand) {
-        value += card->getValue();
-
-        if (card->isAce()) {
-            ++aceCount;
-        }
-    }
-
-    while (value > POINTS_TO_WIN && aceCount > 0) {
-        value -= 10;
-        --aceCount;
-    }
-
-    return value;
+    return I_Participant::getHandValue();
 }
 
 void Dealer::clearHand() {
-    _hand.clear();
+    I_Participant::clearHand();
 }
 
 std::unique_ptr<Card> Dealer::getTopCard() const {
-    if (_hand.size() > 0) {
-        return std::make_unique<Card>(*_hand[0]);
-    } else {
+    if (_hand.empty()) {
         return nullptr;
     }
+    return std::make_unique<Card>(*_hand.front());
 }

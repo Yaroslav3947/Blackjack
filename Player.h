@@ -1,38 +1,25 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
-#include <QObject>
-#include <QString>
-#include <QList>
-#include <memory>
-#include "Card.h"
+#include <I_Participant.h>
 
-class Player : public QObject {
+class Player : public I_Participant {
     Q_OBJECT
 public:
-    explicit Player(const QString &name, int balance = 1000, QObject *parent = nullptr);
-    ~Player() = default;
-
-    void addCard(std::shared_ptr<Card> card);
-    QList<std::shared_ptr<Card>> getHand() const {return this->_hand;};
-    int getHandValue() const;
-    void clearHand();
-    int getBalance() const{return _balance;};
-    void adjustBalance(int amount);
+    constexpr static int defaultBalance = 1000;
+    Player(const QString &name, const int &balance = defaultBalance);
+    int getBet() const;
     bool isBust() const;
-    void setBalance(int balance);
     void setBet(int bet);
-    int getBet() const {return _bet;};
     bool isBankrupt() const;
+    void clearHand() override;
     void changeBet(int amount);
-signals:
-    void balanceChanged(int newBalance);
-
+    int getBalance() const override;
+    int getHandValue() const override;
+    void adjustBalance(const int &amount) override;
+    void addCard(std::shared_ptr<Card> card) override;
+    QList<std::shared_ptr<Card>> getHand() const override;
+    ~Player() = default;
 private:
-    QString _name;
-    int _balance;
-    QList<std::shared_ptr<Card>> _hand;
     int _bet = 0;
 };
 
-#endif // PLAYER_H

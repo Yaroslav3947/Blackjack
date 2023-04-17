@@ -5,13 +5,10 @@
 class Dealer : public I_Participant {
 public:
     Dealer();
-
-    void addCard(std::shared_ptr<Card> card) override;
-    QList<std::shared_ptr<Card>> getHand() const override {return this->_hand;};
-    int getHandValue() const override;
     void clearHand() override;
+    int getHandValue() const override;
     std::unique_ptr<Card> getTopCard() const;
-private:
-    QList<std::shared_ptr<Card>> _hand;
+    void addCard(std::shared_ptr<Card> card) override;
+    QList<std::shared_ptr<Card>> getHand() const override;
 };
 

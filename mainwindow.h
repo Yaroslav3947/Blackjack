@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Game.h>
 #include <QTimer>
 #include <QMainWindow>
 #include <QPropertyAnimation>
 
+#include "Game.h"
 #include "ui_mainwindow.h"
 
 class MainWindow : public QMainWindow {
@@ -12,7 +12,6 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private slots:
     void on_setBet1_clicked();
     void on_setBet5_clicked();
@@ -55,6 +54,5 @@ private:
     Ui::MainWindow *ui;
     int currentBetAmount = 0;
     std::shared_ptr<Game> game;
-
 };
 

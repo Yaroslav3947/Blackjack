@@ -1,14 +1,10 @@
-#ifndef DECK_H
-#define DECK_H
+#pragma once
+
+#include <random>
+#include <vector>
+#include <QString>
 
 #include "Card.h"
-
-#include <qdir.h>
-
-#include <vector>
-#include <random>
-#include <algorithm>
-#include <QString>
 
 class Deck {
 public:
@@ -16,14 +12,12 @@ public:
     void pushCards();
     void shuffle();
     std::shared_ptr<Card> dealCard();
-    int cardsLeft() const;
     std::vector<Card> getCards() const {return _cards;};
+    std::shared_ptr<Card> getCard() const {return _card;};
     ~Deck() = default;
-
 private:
-    Card *card;
+    std::shared_ptr<Card> _card;
     std::vector<Card> _cards;
     int _nextCardIndex;
 };
 
-#endif // DECK_H
