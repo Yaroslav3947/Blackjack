@@ -1,13 +1,10 @@
-#ifndef DEALER_H
-#define DEALER_H
+#pragma once
 
 #include "I_Participant.h"
 
 class Dealer : public I_Participant {
 public:
     Dealer();
-
-//    virtual ~Dealer();
 
     void addCard(std::shared_ptr<Card> card) override;
     QList<std::shared_ptr<Card>> getHand() const override {return this->_hand;};
@@ -18,4 +15,3 @@ private:
     QList<std::shared_ptr<Card>> _hand;
 };
 
-#endif // DEALER_H

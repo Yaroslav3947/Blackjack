@@ -73,41 +73,8 @@ void MainWindow::reverseCardAnimation(QLabel *cardLabel, const QPoint &destinati
         });
 }
 
-static std::string rankToString(const Card::Rank &rank) {
-    switch (rank) {
-        case Card::Rank::ACE: return "1";
-        case Card::Rank::TWO: return "2";
-        case Card::Rank::THREE: return "3";
-        case Card::Rank::FOUR: return "4";
-        case Card::Rank::FIVE: return "5";
-        case Card::Rank::SIX: return "6";
-        case Card::Rank::SEVEN: return "7";
-        case Card::Rank::EIGHT: return "8";
-        case Card::Rank::NINE: return "9";
-        case Card::Rank::TEN: return "10";
-        case Card::Rank::JACK: return "11";
-        case Card::Rank::QUEEN: return "12";
-        case Card::Rank::KING: return "13";
-        default: return "";
-    }
-}
-
-static std::string suitToString(const Card::Suit &suit) {
-    switch (suit) {
-        case Card::Suit::CLUBS: return "clubs";
-        case Card::Suit::DIAMONDS: return "diamonds";
-        case Card::Suit::HEARTS: return "hearts";
-        case Card::Suit::SPADES: return "spades";
-        default: return "";
-    }
-}
-
-void setCardPixmap(QLabel *label, const std::shared_ptr<Card> &card) {
-    const auto fileName = ":/images/cards/" +
-        rankToString(card->getRank()) + "_of_" +
-        suitToString(card->getSuit()) + ".png";
-    QPixmap pixmap(QString::fromStdString(fileName));
-    label->setPixmap(pixmap);
+void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card) {
+    label->setPixmap(card->getFrontImage());
 }
 
 void updateSumLabel(QLabel *label, std::shared_ptr<Game> game, const std::string &participant) {
@@ -118,9 +85,8 @@ void updateSumLabel(QLabel *label, std::shared_ptr<Game> game, const std::string
     }
 }
 
-void setBackImageCardPixmap(QLabel* cardLabel) {
-    const auto backImagePath = ":/images/cards/backImage.png";
-    cardLabel->setPixmap(QPixmap(backImagePath));
+void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
+    cardLabel->setPixmap(QPixmap(card->getBackImage()));
 }
 
 void MainWindow::endGame(const QString &message) {
@@ -137,14 +103,14 @@ void MainWindow::updateDealerInfo() {
     updateSumLabel(ui->dealerSumLabel, game, "Dealer");
 
     ui->dealerCard2->show();
-    setCardPixmap(ui->dealerCard2, dealerCards[1]);
+    setFrontImageCard(ui->dealerCard2, dealerCards[1]);
 
     if (numCards >= 3) {
-        updateDealerCard(ui->dealerCard3, dealerCards[2]);
+        updateCard(ui->dealerCard3, dealerCards[2]);
     } else if (numCards >= 4) {
-        updateDealerCard(ui->dealerCard4, dealerCards[3]);
+        updateCard(ui->dealerCard4, dealerCards[3]);
     } else if (numCards >= 5) {
-        updateDealerCard(ui->dealerCard5, dealerCards[4]);
+        updateCard(ui->dealerCard5, dealerCards[4]);
     }
 }
 
@@ -153,15 +119,15 @@ void MainWindow::displayPlayerCards() {
     auto playerSum = game->getPlayer()->getHandValue();
 
     ui->playerSumLabel->setText(QString(" %1").arg(playerSum));
-    setCardPixmap(ui->playerCard1, playerCards[0]);
-    setCardPixmap(ui->playerCard2, playerCards[1]);
+    setFrontImageCard(ui->playerCard1, playerCards[0]);
+    setFrontImageCard(ui->playerCard2, playerCards[1]);
 }
 
 void MainWindow::displayDealerCards() {
     auto dealerCards = game->getDealer()->getHand();
 
-    setBackImageCardPixmap(ui->dealerCard2);
-    setCardPixmap(ui->dealerCard1, dealerCards[0]);
+    setBackImageCard(ui->dealerCard2, dealerCards[0]);
+    setFrontImageCard(ui->dealerCard1, dealerCards[0]);
 }
 void MainWindow::startGame() {
     game->getDeck()->pushCards();
@@ -228,18 +194,18 @@ void MainWindow::updatePlayerInfo() {
     updateSumLabel(ui->playerSumLabel, game, "Player");
 
     if (numCards == 3) {
-        updateDealerCard(ui->playerCard3, playerCards[2]);
+        updateCard(ui->playerCard3, playerCards[2]);
     } else if (numCards == 4) {
-        updateDealerCard(ui->playerCard4, playerCards[3]);
+        updateCard(ui->playerCard4, playerCards[3]);
     } else if (numCards == 5) {
-        updateDealerCard(ui->playerCard5, playerCards[4]);
+        updateCard(ui->playerCard5, playerCards[4]);
     }
 }
 
-void MainWindow::updateDealerCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
+void MainWindow::updateCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
     cardLabel->show();
     cardAnimation(cardLabel, QPoint(0, 0));
-    setCardPixmap(cardLabel, card);
+    setFrontImageCard(cardLabel, card);
 }
 
 void MainWindow::resetGame() {

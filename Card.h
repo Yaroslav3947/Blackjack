@@ -40,6 +40,6 @@ private:
     Rank _rank;
     Suit _suit;
     QPixmap _frontImage ;
-    QPixmap _backImage = QPixmap(":/images/cards/backImage.png");
+    QPixmap _backImage = QPixmap(":/images/cards2/backImage.png");
 };
 

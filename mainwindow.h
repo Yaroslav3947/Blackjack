@@ -42,7 +42,7 @@ private:
 
     void updateDealerInfo();
     void updatePlayerInfo();
-    void updateDealerCard(QLabel *cardLabel, const std::shared_ptr<Card> card);
+    void updateCard(QLabel *cardLabel, const std::shared_ptr<Card> card);
 
     void updateBetLabel(int betAmount);
     void onSetBetClicked(int betAmount);
