@@ -271,17 +271,22 @@ border: 2px solid black; </string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="messageLabel">
+   <widget class="QLabel" name="playerMessageLabel">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>520</y>
+      <x>390</x>
+      <y>340</y>
       <width>401</width>
-      <height>51</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 22pt &quot;Showcard Gothic&quot;;</string>
+     <string notr="true">font: 28pt &quot;Showcard Gothic&quot;;
+color: rgb(43, 43, 43);
+background-color: transparent;
+text-align: center;
+
+</string>
     </property>
     <property name="text">
      <string/>
@@ -781,6 +786,27 @@ border-radius: 25%;</string>
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="dealerMessageLabel">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>110</y>
+      <width>401</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 30pt &quot;Showcard Gothic&quot;;
+color: rgb(43, 43, 43);
+background-color: transparent;
+text-align: center;
+
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -791,14 +817,15 @@ border-radius: 25%;</string>
    <zorder>dealerCard4</zorder>
    <zorder>playerCard3</zorder>
    <zorder>playerCard4</zorder>
-   <zorder>messageLabel</zorder>
    <zorder>playAgainButton</zorder>
    <zorder>playerCard5</zorder>
    <zorder>dealerCard5</zorder>
-   <zorder>Button_Deal</zorder>
    <zorder>betFrame</zorder>
    <zorder>playerInfoFrame</zorder>
    <zorder>dealerInfoFrame</zorder>
+   <zorder>dealerMessageLabel</zorder>
+   <zorder>playerMessageLabel</zorder>
+   <zorder>Button_Deal</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

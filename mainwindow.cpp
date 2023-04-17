@@ -1,5 +1,11 @@
 #include "mainwindow.h"
 
+#include <QGraphicsOpacityEffect>
+#include <QGraphicsRectItem>
+#include <QPropertyAnimation>
+#include <QPen>
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
@@ -31,16 +37,16 @@ void MainWindow::startCardAnimation() {
 
 void betFrameAnimation(Ui::MainWindow *ui) {
     const auto animationDuration = 1000;
-    QPropertyAnimation* animation = new QPropertyAnimation(ui->betFrame, "pos");
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->betFrame, "pos");
     animation->setDuration(animationDuration);
     animation->setStartValue(ui->betFrame->pos());
-    animation->setEndValue(QPoint(10,630));
+    animation->setEndValue(QPoint(10,650));
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void reverseBetFrameAnimation(Ui::MainWindow *ui) {
     const auto animationDuration = 1000;
-    QPropertyAnimation* animation = new QPropertyAnimation(ui->betFrame, "pos");
+    QPropertyAnimation *animation = new QPropertyAnimation(ui->betFrame, "pos");
     animation->setDuration(animationDuration);
     animation->setStartValue(ui->betFrame->pos());
     animation->setEndValue(QPoint(10,420));
@@ -73,7 +79,16 @@ void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
 }
 
 void MainWindow::endGame(const QString &message) {
-    ui->messageLabel->setText(message);
+    if (message == "Player wins!") {
+        ui->playerMessageLabel->setText("Dealer Bust!");
+        ui->dealerMessageLabel->setText("Player Wins!");
+    } else if (message == "Dealer wins!") {
+        ui->playerMessageLabel->setText("Player Bust");
+        ui->dealerMessageLabel->setText("Dealer Wins!");
+    } else if (message == "Tie!") {
+        ui->playerMessageLabel->setText("Tie");
+        ui->dealerMessageLabel->setText("Tie");
+    }
     ui->hitButton->setEnabled(false);
     ui->standButton->setEnabled(false);
     ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
@@ -130,7 +145,10 @@ void dealCardToPlayer(std::shared_ptr<Game> game) {
 }
 
 void MainWindow::handlePlayerBust() {
-    if (game->getPlayer()->isBust()) {
+    const auto POINTS_TO_WIN = 21;
+    if(game->getPlayer()->getHandValue() == POINTS_TO_WIN) {
+        endGame("Player wins!");
+    } else if (game->getPlayer()->isBust()) {
         updateDealerInfo();
         const auto winner = game->determineWinner();
         if(winner == Game::Winner::DEALER){
@@ -196,7 +214,8 @@ void MainWindow::resetGame() {
     hideAllButtonsExceptBalanceButton();
     game->reset();
     ui->betLabel->setText("Bet: $ 0");
-    ui->messageLabel->setText("");
+    ui->dealerMessageLabel->setText("");
+    ui->playerMessageLabel->setText("");
     ui->hitButton->setEnabled(true);
     ui->standButton->setEnabled(true);
 }
