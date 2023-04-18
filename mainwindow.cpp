@@ -73,6 +73,8 @@ void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
 }
 
 void MainWindow::endGame(const QString &message) {
+    ui->hitButton->setDisabled(true);
+    ui->standButton->setDisabled(true);
     if (message == "Player wins!") {
         ui->playerMessageLabel->setText("Player Bust!");
         ui->dealerMessageLabel->setText("Dealer Wins!");
@@ -83,8 +85,6 @@ void MainWindow::endGame(const QString &message) {
         ui->playerMessageLabel->setText("Tie");
         ui->dealerMessageLabel->setText("Tie");
     }
-    ui->hitButton->setEnabled(false);
-    ui->standButton->setEnabled(false);
     ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
 }
 
@@ -92,24 +92,20 @@ void MainWindow::updateDealerInfo() {
     auto dealerCards = game->getDealer()->getHand();
     auto numCards = dealerCards.size();
 
-    updateSumLabel(ui->dealerSumLabel, game, "Dealer");
+    const auto CARD_INDEX_OFFSET= 3;
+    const auto LAST_CARD_INDEX = numCards - 1;
+    const auto MAX_NUM_CARDS = 7;
+    const auto MIN_NUM_CARDS = 3;
 
     ui->dealerCard2->show();
     setFrontImageCard(ui->dealerCard2, dealerCards[1]);
 
-    if (numCards >= 3) {
-        updateCard(ui->dealerCard3, dealerCards[2]);
-    } else if (numCards >= 4) {
-        updateCard(ui->dealerCard4, dealerCards[3]);
-    } else if (numCards >= 5) {
-        updateCard(ui->dealerCard5, dealerCards[4]);
-    } else if (numCards >= 6) {
-        updateCard(ui->dealerCard6, dealerCards[5]);
-    } else if (numCards >= 7) {
-        updateCard(ui->dealerCard7, dealerCards[6]);
+    updateSumLabel(ui->dealerSumLabel, game, "Dealer");
+    QList<QLabel*> dealerCardsLabels = {ui->dealerCard3, ui->dealerCard4, ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
+    if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
+        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
     }
 }
-///TODO: make it using loop
 
 void MainWindow::displayPlayerCards() {
     auto playerCards = game->getPlayer()->getHand();
@@ -145,6 +141,7 @@ void dealCardToPlayer(std::shared_ptr<Game> game) {
 void MainWindow::handlePlayerBust() {
     const auto POINTS_TO_WIN = 21;
     if(game->getPlayer()->getHandValue() == POINTS_TO_WIN) {
+        updateDealerInfo();
         endGame("Player wins!");
     } else if (game->getPlayer()->isBust()) {
         updateDealerInfo();
@@ -157,10 +154,18 @@ void MainWindow::handlePlayerBust() {
     }
 }
 
+void lockButton(QAbstractButton *button, const int &duration) {
+    button->setEnabled(false);
+    QTimer::singleShot(duration, button, [=]() {
+        button->setEnabled(true);
+    });
+}
+
 void MainWindow::on_hitButton_clicked() {
     dealCardToPlayer(game);
     updatePlayerInfo();
     handlePlayerBust();
+
 }
 
 void MainWindow::on_standButton_clicked() {
@@ -191,18 +196,15 @@ void MainWindow::updatePlayerInfo() {
     auto playerCards = game->getPlayer()->getHand();
     auto numCards = playerCards.size();
 
-    updateSumLabel(ui->playerSumLabel, game, "Player");
+    const auto CARD_INDEX_OFFSET= 3;
+    const auto LAST_CARD_INDEX = numCards - 1;
+    const auto MAX_NUM_CARDS = 7;
+    const auto MIN_NUM_CARDS = 3;
 
-    if (numCards == 3) {
-        updateCard(ui->playerCard3, playerCards[2]);
-    } else if (numCards == 4) {
-        updateCard(ui->playerCard4, playerCards[3]);
-    } else if (numCards == 5) {
-        updateCard(ui->playerCard5, playerCards[4]);
-    } else if (numCards == 6) {
-        updateCard(ui->playerCard6, playerCards[5]);
-    } else if (numCards == 7) {
-        updateCard(ui->playerCard7, playerCards[6]);
+    updateSumLabel(ui->playerSumLabel, game, "Player");
+    QList<QLabel*> playerCardsLabels = {ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7};
+    if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
+        updateCard(playerCardsLabels[numCards - CARD_INDEX_OFFSET], playerCards[LAST_CARD_INDEX]);
     }
 }
 
@@ -236,13 +238,21 @@ void MainWindow::on_playAgainButton_clicked() {
     resetGame();
 }
 
+void lockButtons(Ui::MainWindow *ui) {
+    const int LOCK_DURATION_MS = 3500;
+    lockButton(ui->playAgainButton, LOCK_DURATION_MS);
+    lockButton(ui->hitButton, LOCK_DURATION_MS);
+    lockButton(ui->standButton, LOCK_DURATION_MS);
+}
 void MainWindow::startRound() {
     setupForNewRound();
     this->startGame();
     game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
+    lockButtons(ui);
     startCardAnimation();
+    handlePlayerBust();
 }
 
 void MainWindow::hideButtonsAndLabels() {
