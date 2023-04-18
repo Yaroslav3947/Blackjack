@@ -35,23 +35,32 @@ void MainWindow::startCardAnimation() {
             });
 }
 
-void betFrameAnimation(Ui::MainWindow *ui) {
+void animateStyleFrame(Ui::MainWindow* ui, bool reverse = false) {
     const auto animationDuration = 1000;
-    QPropertyAnimation *animation = new QPropertyAnimation(ui->betFrame, "pos");
+    QPropertyAnimation* animation = new QPropertyAnimation(ui->Styleframe, "pos");
     animation->setDuration(animationDuration);
-    animation->setStartValue(ui->betFrame->pos());
-    animation->setEndValue(QPoint(10,650));
+    animation->setStartValue(ui->Styleframe->pos());
+    if (reverse) {
+        animation->setEndValue(QPoint(50, 20));
+    } else {
+        animation->setEndValue(QPoint(-200, 20));
+    }
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void reverseBetFrameAnimation(Ui::MainWindow *ui) {
+void animateBetFrame(Ui::MainWindow* ui, bool reverse = false) {
     const auto animationDuration = 1000;
-    QPropertyAnimation *animation = new QPropertyAnimation(ui->betFrame, "pos");
+    QPropertyAnimation* animation = new QPropertyAnimation(ui->betFrame, "pos");
     animation->setDuration(animationDuration);
     animation->setStartValue(ui->betFrame->pos());
-    animation->setEndValue(QPoint(10,420));
+    if (reverse) {
+        animation->setEndValue(QPoint(10, 420));
+    } else {
+        animation->setEndValue(QPoint(10, 650));
+    }
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
+
 
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &endValue, const QPoint &startValue) {
     const int duration = 1000;
@@ -66,7 +75,8 @@ void MainWindow::setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &c
     if(!game->getChangePath()) {
         label->setPixmap(card->getFrontImage());
     } else {
-        label->setPixmap((card->getFrontImagePath(card->getSuit(), card->getRank(), ":/images/cards2/")));
+        const auto cardsPath = ":/images/cards2/";
+        label->setPixmap((card->getFrontImagePath(card->getSuit(), card->getRank(), cardsPath)));
     }
 }
 
@@ -84,7 +94,8 @@ void MainWindow::setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card>
     if(!game->getChangePath()) {
         cardLabel->setPixmap(QPixmap(card->getBackImage()));
     } else {
-        cardLabel->setPixmap(QPixmap(":/images/cards2/backImage.png"));
+        const auto backImagePath = ":/images/cards2/backImage.png";
+        cardLabel->setPixmap(QPixmap(backImagePath));
     }
 }
 
@@ -104,7 +115,7 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
 }
 
-void MainWindow::updateCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
+void MainWindow::updateCard(QLabel *cardLabel, const std::shared_ptr<Card> card) {
     cardLabel->show();
     cardAnimation(cardLabel, cardLabel->pos(), QPoint(0, 0));
     setFrontImageCard(cardLabel, card);
@@ -126,6 +137,22 @@ void MainWindow::updateDealerInfo() {
     }
 }
 
+void MainWindow::updatePlayerInfo() {
+    auto playerCards = game->getPlayer()->getHand();
+    auto numCards = playerCards.size();
+
+    const auto CARD_INDEX_OFFSET = 3;
+    const auto MAX_NUM_CARDS = 7;
+    const auto MIN_NUM_CARDS = 3;
+    const auto LAST_CARD_INDEX = numCards - 1;
+
+    updateSumLabel(ui->playerSumLabel, game, "Player");
+    QList<QLabel*> playerCardsLabels = {ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7};
+    if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
+        updateCard(playerCardsLabels[numCards - CARD_INDEX_OFFSET], playerCards[LAST_CARD_INDEX]);
+    }
+}
+
 void MainWindow::displayPlayerCards() {
     auto playerCards = game->getPlayer()->getHand();
     auto playerSum = game->getPlayer()->getHandValue();
@@ -141,10 +168,12 @@ void MainWindow::displayDealerCards() {
     setBackImageCard(ui->dealerCard2, dealerCards[0]);
     setFrontImageCard(ui->dealerCard1, dealerCards[0]);
 }
+
 void MainWindow::startGame() {
     game->getDeck()->pushCards();
     game->getDeck()->shuffle();
     game->dealCards();
+
     ui->playerInfoFrame->show();
     ui->dealerInfoFrame->show();
 
@@ -187,7 +216,6 @@ void MainWindow::on_hitButton_clicked() {
 }
 
 void MainWindow::on_standButton_clicked() {
-
     game->dealerTurn();
     updateDealerInfo();
 
@@ -210,22 +238,6 @@ void MainWindow::hideCards() {
     }
 }
 
-void MainWindow::updatePlayerInfo() {
-    auto playerCards = game->getPlayer()->getHand();
-    auto numCards = playerCards.size();
-
-    const auto CARD_INDEX_OFFSET = 3;
-    const auto MAX_NUM_CARDS = 7;
-    const auto MIN_NUM_CARDS = 3;
-    const auto LAST_CARD_INDEX = numCards - 1;
-
-    updateSumLabel(ui->playerSumLabel, game, "Player");
-    QList<QLabel*> playerCardsLabels = {ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7};
-    if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
-        updateCard(playerCardsLabels[numCards - CARD_INDEX_OFFSET], playerCards[LAST_CARD_INDEX]);
-    }
-}
-
 void MainWindow::resetGame() {
     hideAllButtonsExceptBalanceButton();
     game->reset();
@@ -238,14 +250,13 @@ void MainWindow::resetGame() {
 
 void MainWindow::setupForNewRound() {
     QList<QWidget*> widgets{ ui->hitButton, ui->standButton, ui->playAgainButton,
-                            ui->playerSumLabel, ui->dealerSumLabel };
+                            ui->playerSumLabel, ui->dealerSumLabel};
     for (const auto &widget : widgets) {
         widget->show();
     }
     ui->Button_Deal->hide();
-    betFrameAnimation(ui);
-    ui->Styleframe->hide();
-
+    animateBetFrame(ui);
+    animateStyleFrame(ui);
 }
 void MainWindow::on_playAgainButton_clicked() {
     resetGame();
@@ -274,14 +285,16 @@ void MainWindow::hideButtonsAndLabels() {
     ui->playerInfoFrame->hide();
     ui->dealerInfoFrame->hide();
 }
+
 void showDealButton(Ui::MainWindow *ui) {
     ui->Button_Deal->show();
 }
+
 void MainWindow::hideAllButtonsExceptBalanceButton() {
     hideButtonsAndLabels();
     showDealButton(ui);
-    reverseBetFrameAnimation(ui);
-    ui->Styleframe->show(); ////TODO: add animation
+    animateBetFrame(ui, true);
+    animateStyleFrame(ui, true);
 }
 
 void MainWindow::on_Button_Deal_clicked() {
@@ -291,7 +304,7 @@ void MainWindow::on_Button_Deal_clicked() {
 }
 
 void MainWindow::onSetBetClicked(int betAmount) {
-    int currentBetAmount = game->getPlayer()->getBet();
+    auto currentBetAmount = game->getPlayer()->getBet();
     if (currentBetAmount + betAmount > game->getPlayer()->getBalance()) {
         qDebug() << "You have no money";
     } else {
@@ -302,7 +315,7 @@ void MainWindow::onSetBetClicked(int betAmount) {
 }
 
 void MainWindow::updateBetLabel(int betAmount) {
-    int currentBetAmount = game->getPlayer()->getBet();
+    auto currentBetAmount = game->getPlayer()->getBet();
     currentBetAmount += betAmount;
     game->getPlayer()->setBet(currentBetAmount);
     ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));

@@ -13,20 +13,21 @@ void I_Participant::clearHand() {
 }
 
 int I_Participant::getHandValue() const {
-    const int MAX_HAND_VALUE = 21;
-    int handValue = 0;
-    int aceCount = 0;
+    const auto ACE_DIFF_VALUE = 10;
+    const auto MAX_HAND_VALUE = 21;
+    auto handValue = 0;
+    auto aceCount = 0;
 
-    for (const auto& card : _hand) {
-        int cardValue = card->getValue();
+    for (const auto &card : _hand) {
+        auto cardValue = card->getValue();
         if (cardValue == 1) {
             ++aceCount;
         }
         handValue += cardValue;
     }
 
-    while (aceCount > 0 && handValue + 10 <= MAX_HAND_VALUE) {
-        handValue += 10;
+    while (aceCount > 0 && handValue + ACE_DIFF_VALUE <= MAX_HAND_VALUE) {
+        handValue += ACE_DIFF_VALUE;
         --aceCount;
     }
 

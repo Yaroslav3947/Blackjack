@@ -35,7 +35,7 @@ void Player::setBet(int bet) {
 }
 
 bool Player::isBust() const {
-    const int POINTS_TO_WIN = 21;
+    const auto POINTS_TO_WIN = 21;
     return getHandValue() > POINTS_TO_WIN;
 }
 
