@@ -58,8 +58,8 @@ Card::Suit Card::getSuit() const {
     return _suit;
 }
 
-QString Card::getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank)  {
-    return ":/images/cards2/" +
+QString Card::getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank, const QString &path)  {
+    return  path +
             rankToString(rank) +
             "_of_" +
             suitToString(suit) +
@@ -67,7 +67,7 @@ QString Card::getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank) 
 }
 
 QPixmap Card::getBackImagePath() const {
-    return QPixmap(":/images/cards2/backImage.png");
+    return QPixmap(":/images/cards/backImage.png");
 }
 
 QPixmap Card::getBackImage() const {

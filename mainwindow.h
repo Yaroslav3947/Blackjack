@@ -25,6 +25,10 @@ private slots:
     void on_Button_Deal_clicked();
     void on_playAgainButton_clicked();
 
+    void on_choose1StyleButton_clicked();
+
+    void on_choose2StyleButton_clicked();
+
 private:
     void handlePlayerBust();
     void displayPlayerCards();
@@ -49,6 +53,9 @@ private:
 
     void startCardAnimation();
     void cardAnimation(QLabel *cardLabel, const QPoint &startValue, const QPoint &endValue);
+
+    void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card);
+    void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card);
 
     Ui::MainWindow *ui;
     int currentBetAmount = 0;

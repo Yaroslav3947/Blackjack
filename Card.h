@@ -33,14 +33,14 @@ public:
          const QString &frontImagePath,
          const QPixmap &backImagePath);
     ~Card() = default;
-    bool isAce() const;;
+    bool isAce() const;
     int getValue() const;
-    Rank getRank() const;;
-    Suit getSuit() const;;
-    QPixmap getBackImage() const;;
+    Rank getRank() const;
+    Suit getSuit() const;
+    QPixmap getBackImage() const;
     QPixmap getFrontImage() const;
     QPixmap getBackImagePath() const;
-    QString getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank);
+    QString getFrontImagePath(const Card::Suit &suit, const Card::Rank &rank, const QString &path = ":/images/cards/");
 private:
     Rank _rank;
     Suit _suit;

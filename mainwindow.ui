@@ -911,6 +911,157 @@ border: 2px solid black; </string>
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QFrame" name="Styleframe">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>191</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="style1Label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>81</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/images/cards/12_of_hearts.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="style2Label">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>30</y>
+       <width>81</width>
+       <height>131</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">image: url(:/images/cards2/12_of_hearts.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="res.qrc">:/images/cards2/12_of_hearts.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="chooseSkinLabel">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>191</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;
+padding: 5px;
+font-size: 16px;
+font-weight: bold;
+border-radius: 5px;
+color: white;
+text-align: center;
+</string>
+     </property>
+     <property name="text">
+      <string>Choose skin for Deck</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="choose2StyleButton">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>170</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: #a2bdaf;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #c7d0d1;
+}</string>
+     </property>
+     <property name="text">
+      <string>Choose</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="choose1StyleButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>81</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>-1</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+    background-color: #a2bdaf;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #c7d0d1;
+}</string>
+     </property>
+     <property name="text">
+      <string>Choose</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -934,6 +1085,7 @@ border: 2px solid black; </string>
    <zorder>dealerCard7</zorder>
    <zorder>playerMessageLabel</zorder>
    <zorder>Button_Deal</zorder>
+   <zorder>Styleframe</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -946,6 +1098,8 @@ border: 2px solid black; </string>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

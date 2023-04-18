@@ -20,8 +20,11 @@ public:
     Player *getPlayer() const { return _player.get(); }
     Dealer *getDealer() const { return _dealer.get(); }
     Deck *getDeck() const { return _deck.get(); }
+    bool getChangePath() { return _changePath;}
+    void setChangePath(bool changePath) {_changePath = changePath;}
 private:
     std::unique_ptr<Deck> _deck;
     std::unique_ptr<Player> _player;
     std::unique_ptr<Dealer> _dealer;
+    bool _changePath = false;
 };

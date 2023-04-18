@@ -13,17 +13,21 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 void MainWindow::startCardAnimation() {
+    const auto DIFFERENCE_IN_DELAYS = 500;
+    const auto DELAY1 = 500;
+    const auto DELAY2 = DELAY1 + DIFFERENCE_IN_DELAYS;
+    const auto DELAY3 = DELAY2 + DIFFERENCE_IN_DELAYS;
     cardAnimation(ui->playerCard1, ui->playerCard1->pos(), QPoint(0, 0));
             ui->playerCard1->show();
-            QTimer::singleShot(500, this, [this]() {
+            QTimer::singleShot(DELAY1, this, [this]() {
                 ui->dealerCard1->show();
                 cardAnimation(ui->dealerCard1, ui->dealerCard1->pos(), QPoint(0, 0));
             });
-            QTimer::singleShot(1000, this, [this]() {
+            QTimer::singleShot(DELAY2 , this, [this]() {
                 ui->playerCard2->show();
                 cardAnimation(ui->playerCard2, ui->playerCard2->pos(), QPoint(0, 0));
             });
-            QTimer::singleShot(1500, this, [this]() {
+            QTimer::singleShot(DELAY3, this, [this]() {
                 ui->dealerCard2->show();
                 cardAnimation(ui->dealerCard2, ui->dealerCard2->pos(), QPoint(0, 0));
             });
@@ -56,8 +60,12 @@ void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &endValue, const 
     animation->setEasingCurve(QEasingCurve::OutCirc);
     animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
-void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card) {
-    label->setPixmap(card->getFrontImage());
+void MainWindow::setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card) {
+    if(!game->getChangePath()) {
+        label->setPixmap(card->getFrontImage());
+    } else {
+        label->setPixmap((card->getFrontImagePath(card->getSuit(), card->getRank(), ":/images/cards2/")));
+    }
 }
 
 void updateSumLabel(QLabel *label, std::shared_ptr<Game> game, const std::string &participant) {
@@ -68,16 +76,22 @@ void updateSumLabel(QLabel *label, std::shared_ptr<Game> game, const std::string
     }
 }
 
-void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
+void MainWindow::setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
     cardLabel->setPixmap(QPixmap(card->getBackImage()));
+
+    if(!game->getChangePath()) {
+        cardLabel->setPixmap(QPixmap(card->getBackImage()));
+    } else {
+        cardLabel->setPixmap(QPixmap(":/images/cards2/backImage.png"));
+    }
 }
 
 void MainWindow::endGame(const QString &message) {
     ui->hitButton->setDisabled(true);
     ui->standButton->setDisabled(true);
     if (message == "Player wins!") {
-        ui->playerMessageLabel->setText("Player Bust!");
-        ui->dealerMessageLabel->setText("Dealer Wins!");
+        ui->playerMessageLabel->setText("Player Wins!");
+        ui->dealerMessageLabel->setText("Dealer Bust!");
     } else if (message == "Dealer wins!") {
         ui->playerMessageLabel->setText("Player Bust!");
         ui->dealerMessageLabel->setText("Dealer Wins!");
@@ -92,17 +106,23 @@ void MainWindow::updateDealerInfo() {
     auto dealerCards = game->getDealer()->getHand();
     auto numCards = dealerCards.size();
 
-    const auto CARD_INDEX_OFFSET= 3;
+    const auto CARD_INDEX_OFFSET = 3;
     const auto LAST_CARD_INDEX = numCards - 1;
-    const auto MAX_NUM_CARDS = 7;
-    const auto MIN_NUM_CARDS = 3;
 
     ui->dealerCard2->show();
     setFrontImageCard(ui->dealerCard2, dealerCards[1]);
 
     updateSumLabel(ui->dealerSumLabel, game, "Dealer");
     QList<QLabel*> dealerCardsLabels = {ui->dealerCard3, ui->dealerCard4, ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
-    if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
+    if (numCards >= 3) {
+        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
+    } else if (numCards >= 4) {
+        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
+    } else if (numCards >= 5) {
+        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
+    } else if (numCards >= 6) {
+        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
+    } else if (numCards >= 7) {
         updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
     }
 }
@@ -165,7 +185,6 @@ void MainWindow::on_hitButton_clicked() {
     dealCardToPlayer(game);
     updatePlayerInfo();
     handlePlayerBust();
-
 }
 
 void MainWindow::on_standButton_clicked() {
@@ -227,11 +246,12 @@ void MainWindow::resetGame() {
 void MainWindow::setupForNewRound() {
     QList<QWidget*> widgets{ ui->hitButton, ui->standButton, ui->playAgainButton,
                             ui->playerSumLabel, ui->dealerSumLabel };
-    for (auto widget : widgets) {
+    for (const auto &widget : widgets) {
         widget->show();
     }
     ui->Button_Deal->hide();
     betFrameAnimation(ui);
+    ui->Styleframe->hide();
 
 }
 void MainWindow::on_playAgainButton_clicked() {
@@ -239,7 +259,7 @@ void MainWindow::on_playAgainButton_clicked() {
 }
 
 void lockButtons(Ui::MainWindow *ui) {
-    const int LOCK_DURATION_MS = 3500;
+    const auto LOCK_DURATION_MS = 3000;
     lockButton(ui->playAgainButton, LOCK_DURATION_MS);
     lockButton(ui->hitButton, LOCK_DURATION_MS);
     lockButton(ui->standButton, LOCK_DURATION_MS);
@@ -252,7 +272,6 @@ void MainWindow::startRound() {
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
     lockButtons(ui);
     startCardAnimation();
-    handlePlayerBust();
 }
 
 void MainWindow::hideButtonsAndLabels() {
@@ -270,6 +289,7 @@ void MainWindow::hideAllButtonsExceptBalanceButton() {
     hideButtonsAndLabels();
     showDealButton(ui);
     reverseBetFrameAnimation(ui);
+    ui->Styleframe->show(); // add animation
 }
 
 void MainWindow::on_Button_Deal_clicked() {
@@ -324,4 +344,11 @@ void MainWindow::on_setBet1000_clicked() {
     onSetBetClicked(1000);
 }
 
+void MainWindow::on_choose1StyleButton_clicked() {
+    game->setChangePath(false);
+}
+
+void MainWindow::on_choose2StyleButton_clicked() {
+    game->setChangePath(true);
+}
 
