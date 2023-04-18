@@ -1,11 +1,5 @@
 #include "mainwindow.h"
 
-#include <QGraphicsOpacityEffect>
-#include <QGraphicsRectItem>
-#include <QPropertyAnimation>
-#include <QPen>
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
@@ -80,10 +74,10 @@ void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card) {
 
 void MainWindow::endGame(const QString &message) {
     if (message == "Player wins!") {
-        ui->playerMessageLabel->setText("Dealer Bust!");
-        ui->dealerMessageLabel->setText("Player Wins!");
+        ui->playerMessageLabel->setText("Player Bust!");
+        ui->dealerMessageLabel->setText("Dealer Wins!");
     } else if (message == "Dealer wins!") {
-        ui->playerMessageLabel->setText("Player Bust");
+        ui->playerMessageLabel->setText("Player Bust!");
         ui->dealerMessageLabel->setText("Dealer Wins!");
     } else if (message == "Tie!") {
         ui->playerMessageLabel->setText("Tie");
@@ -109,6 +103,10 @@ void MainWindow::updateDealerInfo() {
         updateCard(ui->dealerCard4, dealerCards[3]);
     } else if (numCards >= 5) {
         updateCard(ui->dealerCard5, dealerCards[4]);
+    } else if (numCards >= 6) {
+        updateCard(ui->dealerCard6, dealerCards[5]);
+    } else if (numCards >= 7) {
+        updateCard(ui->dealerCard7, dealerCards[6]);
     }
 }
 ///TODO: make it using loop
@@ -181,8 +179,8 @@ void MainWindow::on_standButton_clicked() {
 }
 
 void MainWindow::hideCards() {
-    QList<QLabel*> cardLabels = {ui->playerCard1, ui->playerCard2, ui->playerCard3, ui->playerCard4, ui->playerCard5,
-                                 ui->dealerCard1, ui->dealerCard2, ui->dealerCard3, ui->dealerCard4, ui->dealerCard5};
+    QList<QLabel*> cardLabels = {ui->playerCard1, ui->playerCard2, ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7,
+                                 ui->dealerCard1, ui->dealerCard2, ui->dealerCard3, ui->dealerCard4, ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
 
     for (const auto &cardLabel : cardLabels) {
         cardLabel->hide();
@@ -201,6 +199,10 @@ void MainWindow::updatePlayerInfo() {
         updateCard(ui->playerCard4, playerCards[3]);
     } else if (numCards == 5) {
         updateCard(ui->playerCard5, playerCards[4]);
+    } else if (numCards == 6) {
+        updateCard(ui->playerCard6, playerCards[5]);
+    } else if (numCards == 7) {
+        updateCard(ui->playerCard7, playerCards[6]);
     }
 }
 

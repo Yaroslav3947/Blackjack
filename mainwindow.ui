@@ -50,7 +50,7 @@ QPushButton:hover {
    <widget class="QPushButton" name="standButton">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>740</x>
       <y>270</y>
       <width>120</width>
       <height>70</height>
@@ -671,7 +671,7 @@ color: white;
    <widget class="QFrame" name="playerInfoFrame">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>740</x>
       <y>370</y>
       <width>211</width>
       <height>81</height>
@@ -730,7 +730,7 @@ font-weight: bold;</string>
    <widget class="QFrame" name="dealerInfoFrame">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>740</x>
       <y>110</y>
       <width>211</width>
       <height>81</height>
@@ -807,6 +807,110 @@ text-align: center;
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="playerCard6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>290</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="playerCard7">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>290</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dealerCard6">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>40</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="dealerCard7">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>40</y>
+      <width>131</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"> border-radius: 10px; 
+border: 2px solid black; </string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>../../images/cards/backImage.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -824,6 +928,10 @@ text-align: center;
    <zorder>playerInfoFrame</zorder>
    <zorder>dealerInfoFrame</zorder>
    <zorder>dealerMessageLabel</zorder>
+   <zorder>playerCard6</zorder>
+   <zorder>playerCard7</zorder>
+   <zorder>dealerCard6</zorder>
+   <zorder>dealerCard7</zorder>
    <zorder>playerMessageLabel</zorder>
    <zorder>Button_Deal</zorder>
   </widget>

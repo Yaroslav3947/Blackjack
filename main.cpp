@@ -5,15 +5,7 @@
 
 #include <mainwindow.h>
 
-#include <Dealer.h>
-#include <Deck.h>
-#include <Game.h>
-#include <Player.h>
-#include <I_Participant.h>
-
-
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     MainWindow mainWindow;
