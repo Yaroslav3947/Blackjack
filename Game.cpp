@@ -9,8 +9,8 @@ Game::Game(QObject *parent) :
 
 void Game::reset() {
     _player->clearHand();
-    _player->setBet(0);
     _dealer->clearHand();
+    _player->setBet(0);
     _deck->pushCards();
 }
 
@@ -18,18 +18,19 @@ void Game::dealCards() {
     _player->addCard(_deck->dealCard());
     _player->addCard(_deck->dealCard());
     _dealer->addCard(_deck->dealCard());
+    _dealer->addCard(_deck->dealCard());
 }
 
 void Game::dealerTurn() {
-    const int DEALER_MIN_HAND_VALUE = 18; // we can calculate the % of win by putting different numbers
+    const auto DEALER_MIN_HAND_VALUE = 18; // we can calculate the % of win by putting different numbers
 
-    while (_dealer->getHandValue() < DEALER_MIN_HAND_VALUE) {
-        _dealer->addCard(_deck->dealCard());
+    if(_player->getHandValue() <= POINTS_TO_WIN) {
+        while (_dealer->getHandValue() < DEALER_MIN_HAND_VALUE) {
+            _dealer->addCard(_deck->dealCard());
+        }
     }
 }
 Game::Winner Game::determineWinner() {
-    const int POINTS_TO_WIN = 21;
-
     auto bet = _player->getBet();
     auto playerHandValue = _player->getHandValue();
     auto dealerHandValue = _dealer->getHandValue();

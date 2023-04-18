@@ -12,6 +12,7 @@ public:
             DEALER,
             TIE
     };
+    const int POINTS_TO_WIN = 21;
     Game(QObject *parent = nullptr);
     void reset();
     void dealCards();

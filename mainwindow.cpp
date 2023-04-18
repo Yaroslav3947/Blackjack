@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <QThread>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this),
@@ -102,28 +104,25 @@ void MainWindow::endGame(const QString &message) {
     ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
 }
 
+void MainWindow::updateCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
+    cardLabel->show();
+    cardAnimation(cardLabel, cardLabel->pos(), QPoint(0, 0));
+    setFrontImageCard(cardLabel, card);
+}
+
 void MainWindow::updateDealerInfo() {
     auto dealerCards = game->getDealer()->getHand();
     auto numCards = dealerCards.size();
 
-    const auto CARD_INDEX_OFFSET = 3;
-    const auto LAST_CARD_INDEX = numCards - 1;
-
-    ui->dealerCard2->show();
     setFrontImageCard(ui->dealerCard2, dealerCards[1]);
+    ui->dealerCard2->show();
 
     updateSumLabel(ui->dealerSumLabel, game, "Dealer");
-    QList<QLabel*> dealerCardsLabels = {ui->dealerCard3, ui->dealerCard4, ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
-    if (numCards >= 3) {
-        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
-    } else if (numCards >= 4) {
-        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
-    } else if (numCards >= 5) {
-        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
-    } else if (numCards >= 6) {
-        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
-    } else if (numCards >= 7) {
-        updateCard(dealerCardsLabels[numCards - CARD_INDEX_OFFSET], dealerCards[LAST_CARD_INDEX]);
+
+    QList<QLabel *> dealerCardsLabels = {ui->dealerCard1, ui->dealerCard2, ui->dealerCard3, ui->dealerCard4,
+                                         ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
+    for(auto i = 3; i <= numCards; i++) {
+        updateCard(dealerCardsLabels[i-1], dealerCards[i-1]);
     }
 }
 
@@ -189,6 +188,7 @@ void MainWindow::on_hitButton_clicked() {
 
 void MainWindow::on_standButton_clicked() {
 
+    game->dealerTurn();
     updateDealerInfo();
 
     const auto winner = game->determineWinner();
@@ -205,7 +205,6 @@ void MainWindow::on_standButton_clicked() {
 void MainWindow::hideCards() {
     QList<QLabel*> cardLabels = {ui->playerCard1, ui->playerCard2, ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7,
                                  ui->dealerCard1, ui->dealerCard2, ui->dealerCard3, ui->dealerCard4, ui->dealerCard5, ui->dealerCard6, ui->dealerCard7};
-
     for (const auto &cardLabel : cardLabels) {
         cardLabel->hide();
     }
@@ -215,22 +214,16 @@ void MainWindow::updatePlayerInfo() {
     auto playerCards = game->getPlayer()->getHand();
     auto numCards = playerCards.size();
 
-    const auto CARD_INDEX_OFFSET= 3;
-    const auto LAST_CARD_INDEX = numCards - 1;
+    const auto CARD_INDEX_OFFSET = 3;
     const auto MAX_NUM_CARDS = 7;
     const auto MIN_NUM_CARDS = 3;
+    const auto LAST_CARD_INDEX = numCards - 1;
 
     updateSumLabel(ui->playerSumLabel, game, "Player");
     QList<QLabel*> playerCardsLabels = {ui->playerCard3, ui->playerCard4, ui->playerCard5, ui->playerCard6, ui->playerCard7};
     if (numCards >= MIN_NUM_CARDS && numCards <= MAX_NUM_CARDS) {
         updateCard(playerCardsLabels[numCards - CARD_INDEX_OFFSET], playerCards[LAST_CARD_INDEX]);
     }
-}
-
-void MainWindow::updateCard(QLabel* cardLabel, const std::shared_ptr<Card> card) {
-    cardLabel->show();
-    cardAnimation(cardLabel, cardLabel->pos(), QPoint(0, 0));
-    setFrontImageCard(cardLabel, card);
 }
 
 void MainWindow::resetGame() {
@@ -267,7 +260,6 @@ void lockButtons(Ui::MainWindow *ui) {
 void MainWindow::startRound() {
     setupForNewRound();
     this->startGame();
-    game->dealerTurn();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
     lockButtons(ui);
@@ -289,7 +281,7 @@ void MainWindow::hideAllButtonsExceptBalanceButton() {
     hideButtonsAndLabels();
     showDealButton(ui);
     reverseBetFrameAnimation(ui);
-    ui->Styleframe->show(); // add animation
+    ui->Styleframe->show(); ////TODO: add animation
 }
 
 void MainWindow::on_Button_Deal_clicked() {
