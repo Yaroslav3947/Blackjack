@@ -2,6 +2,7 @@
 
 #include <QList>
 #include "Card.h"
+#include "qobject.h"
 
 class I_Participant: public QObject {
 public:
