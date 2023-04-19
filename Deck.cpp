@@ -13,13 +13,19 @@ void Deck::pushCards() {
         }
     }
 }
-
 void Deck::shuffle() {
-    std::random_device rd;
-    std::mt19937 g(rd());
-    std::shuffle(_cards.begin(), _cards.end(), g);
+    for (int i = _cards.size() - 1; i > 0; --i) {
+        int j = rand() % (i + 1);
+        std::swap(_cards[i], _cards[j]);
+    }
     _nextCardIndex = 0;
 }
+//void Deck::shuffle() {
+//    std::random_device rd;
+//    std::mt19937 g(rd());
+//    std::shuffle(_cards.begin(), _cards.end(), g);
+//    _nextCardIndex = 0;
+//}
 
 std::shared_ptr<Card> Deck::dealCard() {
     if (_nextCardIndex >= static_cast<int>(_cards.size())) {

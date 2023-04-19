@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 
 #include <QThread>
+#include <QtMultimedia/QSound>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -9,10 +11,32 @@ MainWindow::MainWindow(QWidget *parent)
     hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
     ui->betLabel->setText(QString("Bet: $ %1").arg(0));
+    backgroundSound = std::make_unique<QMediaPlayer>();
+    buttonClickSound = std::make_unique<QMediaPlayer>();
+    setbackgroundSound();
+    setButtonClickSound();
+    backgroundSound->play();
+}
+
+void MainWindow::setbackgroundSound() {
+    backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/background.wav"));
+    backgroundSound->setVolume(23);
+}
+
+void MainWindow::setButtonClickSound() {
+    buttonClickSound->setMedia(QUrl("qrc:/sounds/sounds/Short_and_fast_buttonclick.mp3"));
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+void MainWindow::playButtonClickSound() {
+    if (buttonClickSound->state() == QMediaPlayer::PlayingState) {
+        buttonClickSound->setPosition(0);
+    } else if (buttonClickSound->state() == QMediaPlayer::StoppedState) {
+        setButtonClickSound();
+    }
+    buttonClickSound->play();
 }
 void MainWindow::startCardAnimation() {
     const auto DIFFERENCE_IN_DELAYS = 500;
@@ -210,12 +234,14 @@ void lockButton(QAbstractButton *button, const int &duration) {
 }
 
 void MainWindow::on_hitButton_clicked() {
+    playButtonClickSound();
     dealCardToPlayer(game);
     updatePlayerInfo();
     handlePlayerBust();
 }
 
 void MainWindow::on_standButton_clicked() {
+    playButtonClickSound();
     game->dealerTurn();
     updateDealerInfo();
 
@@ -259,6 +285,7 @@ void MainWindow::setupForNewRound() {
     animateStyleFrame(ui);
 }
 void MainWindow::on_playAgainButton_clicked() {
+    playButtonClickSound();
     resetGame();
 }
 
@@ -298,15 +325,17 @@ void MainWindow::hideAllButtonsExceptBalanceButton() {
 }
 
 void MainWindow::on_Button_Deal_clicked() {
+    playButtonClickSound();
     if(game->getPlayer()->getBet() > 0) {
         startRound();
     }
 }
 
 void MainWindow::onSetBetClicked(int betAmount) {
+    playButtonClickSound();
     auto currentBetAmount = game->getPlayer()->getBet();
     if (currentBetAmount + betAmount > game->getPlayer()->getBalance()) {
-        qDebug() << "You have no money";
+//        qDebug() << "You have no money";
     } else {
         currentBetAmount += betAmount;
         game->getPlayer()->setBet(currentBetAmount);
@@ -322,6 +351,7 @@ void MainWindow::updateBetLabel(int betAmount) {
 }
 
 void MainWindow::on_setBet1_clicked() {
+
     onSetBetClicked(1);
 }
 

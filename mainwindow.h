@@ -2,6 +2,7 @@
 
 #include <QTimer>
 #include <QMainWindow>
+#include <QMediaPlayer>
 #include <QPropertyAnimation>
 
 #include "Game.h"
@@ -57,6 +58,15 @@ private:
     void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card);
     void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card);
 
+    void setbackgroundSound();
+    void setButtonClickSound();
+
+    void playButtonClickSound();
+
+
+    std::unique_ptr<QMediaPlayer> backgroundSound;
+    std::unique_ptr<QMediaPlayer> buttonClickSound;
+    std::unique_ptr<QMediaPlayer> cardSound;
     Ui::MainWindow *ui;
     int currentBetAmount = 0;
     std::shared_ptr<Game> game;
