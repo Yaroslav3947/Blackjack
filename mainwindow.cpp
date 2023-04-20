@@ -1,21 +1,21 @@
 #include "mainwindow.h"
 
-#include <QThread>
-#include <QtMultimedia/QSound>
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     game = std::make_shared<Game>();
     hideAllButtonsExceptBalanceButton();
-    ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
-    ui->style1Label->setStyleSheet("border: 2px solid #a2bdaf;");
-    ui->betLabel->setText(QString("Bet: $ %1").arg(0));
+    setLabelsByDefault();
     setbackgroundSound();
     setButtonClickSound();
     setCardSound();
     setToggleMusic();
+}
+
+void MainWindow::setLabelsByDefault() {
+    ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
+    ui->style1Label->setStyleSheet("border: 2px solid #1b1f3b;");
+    ui->betLabel->setText(QString("Bet: $ %1").arg(0));
 }
 
 
@@ -40,11 +40,20 @@ void MainWindow::playCardSound() {
     }
     cardSound->play();
 }
+
+void MainWindow::onBackgroundMusicStateChanged(QMediaPlayer::State state) {
+    if (state == QMediaPlayer::StoppedState) {
+        backgroundSound->setPosition(0);
+        backgroundSound->play();
+    }
+}
 void MainWindow::setbackgroundSound() {
     backgroundSound = std::make_unique<QMediaPlayer>();
     backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/background.wav"));
     backgroundSound->setVolume(23);
     backgroundSound->play();
+
+    connect(backgroundSound.get(), &QMediaPlayer::stateChanged, this, &MainWindow::onBackgroundMusicStateChanged);
 }
 
 void MainWindow::setButtonClickSound() {
@@ -467,31 +476,17 @@ void MainWindow::on_setBet1000_clicked() {
     onSetBetClicked(1000);
 }
 
-//void MainWindow::on_choose1StyleButton_clicked() {
-//    playButtonClickSound();
-//    game->setChangePath(false);
-//}
-
-//void MainWindow::on_choose2StyleButton_clicked() {
-//    playButtonClickSound();
-//    game->setChangePath(true);
-//}
-
 void MainWindow::on_choose1StyleButton_clicked() {
     playButtonClickSound();
     game->setChangePath(false);
-    // Set border color of style1Label to red
-    ui->style1Label->setStyleSheet("border: 2px solid grey;");
-    // Set border color of style2Label to its default
+    ui->style1Label->setStyleSheet("border: 2px solid #1b1f3b;");
     ui->style2Label->setStyleSheet("");
 }
 
 void MainWindow::on_choose2StyleButton_clicked() {
     playButtonClickSound();
     game->setChangePath(true);
-    // Set border color of style2Label to red
-    ui->style2Label->setStyleSheet("border: 2px solid grey;");
-    // Set border color of style1Label to its default
+    ui->style2Label->setStyleSheet("border: 2px solid #1b1f3b;");
     ui->style1Label->setStyleSheet("");
 }
 

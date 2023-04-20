@@ -63,6 +63,7 @@ private:
     void startCardAnimation();
     void cardAnimation(QLabel *cardLabel, const QPoint &startValue, const QPoint &endValue);
 
+    void setLabelsByDefault();
     void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card);
     void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card);
 
@@ -74,6 +75,8 @@ private:
 
     void playButtonClickSound();
     void playCardSound();
+
+    void onBackgroundMusicStateChanged(QMediaPlayer::State state);
 
 
     std::unique_ptr<QMediaPlayer> backgroundSound;
