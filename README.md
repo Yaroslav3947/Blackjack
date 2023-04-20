@@ -18,5 +18,7 @@ At the start of each round, the player places a bet and is dealt two cards. The 
  - Easy-to-use interface
 ## Requirements
  - Windows operating system to run.
+ ## Warnings
+ BlackJack.exe program could cause little problems, a better solution would be to run program using Qt. This can help to avoid any issues and ensure a smoother experience.
  ## Contacts
 Contact email: kogutyaroslav3947@gmail.com
