@@ -6,25 +6,52 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
-    ui->setupUi(this),
+    ui->setupUi(this);
     game = std::make_shared<Game>();
     hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
     ui->betLabel->setText(QString("Bet: $ %1").arg(0));
-    backgroundSound = std::make_unique<QMediaPlayer>();
-    buttonClickSound = std::make_unique<QMediaPlayer>();
     setbackgroundSound();
     setButtonClickSound();
+    setCardSound();
+    setToggleMusic();
+}
+
+
+void MainWindow::setCardSound() {
+    cardSound = std::make_unique<QMediaPlayer>();
+    cardSound->setMedia(QUrl("qrc:/sounds/sounds/throw_card_on_table.mp3"));
+    cardSound->setVolume(35);
+}
+
+void MainWindow::setToggleMusic() {
+    musicButton = std::make_unique<QPushButton>(this);
+    musicButton->setGeometry(940, 610, 50, 50);
+    connect(musicButton.get(), &QPushButton::clicked, this, &MainWindow::toggleMusic);
+
+    toggleMusic();
+
+    musicButton->setStyleSheet("QPushButton { border-radius: 10px; }");
+}
+void MainWindow::playCardSound() {
+    if (cardSound->state() == QMediaPlayer::PlayingState) {
+        cardSound->setPosition(0);
+    } else if (cardSound->state() == QMediaPlayer::StoppedState) {
+        setCardSound();
+    }
+    cardSound->play();
+}
+void MainWindow::setbackgroundSound() {
+    backgroundSound = std::make_unique<QMediaPlayer>();
+    backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/background.wav"));
+    backgroundSound->setVolume(23);
     backgroundSound->play();
 }
 
-void MainWindow::setbackgroundSound() {
-    backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/background.wav"));
-    backgroundSound->setVolume(23);
-}
-
 void MainWindow::setButtonClickSound() {
+    buttonClickSound = std::make_unique<QMediaPlayer>();
     buttonClickSound->setMedia(QUrl("qrc:/sounds/sounds/Short_and_fast_buttonclick.mp3"));
+    buttonClickSound->setVolume(30);
 }
 
 MainWindow::~MainWindow() {
@@ -87,6 +114,7 @@ void animateBetFrame(Ui::MainWindow* ui, bool reverse = false) {
 
 
 void MainWindow::cardAnimation(QLabel *cardLabel, const QPoint &endValue, const QPoint &startValue) {
+    playCardSound();
     const int duration = 1000;
     QPropertyAnimation* animation = new QPropertyAnimation(cardLabel, "pos");
     animation->setStartValue(startValue);
@@ -380,10 +408,26 @@ void MainWindow::on_setBet1000_clicked() {
 }
 
 void MainWindow::on_choose1StyleButton_clicked() {
+    playButtonClickSound();
     game->setChangePath(false);
 }
 
 void MainWindow::on_choose2StyleButton_clicked() {
+    playButtonClickSound();
     game->setChangePath(true);
 }
+
+void MainWindow::toggleMusic() {
+    soundOn = !soundOn;
+    if (soundOn) {
+        backgroundSound->play();
+        musicButton->setIcon(QIcon(":/images/icons/musicOn.png"));
+    } else {
+        backgroundSound->pause();
+        musicButton->setIcon(QIcon(":/images/icons/musicOff.png"));
+    }
+}
+
+
+
 

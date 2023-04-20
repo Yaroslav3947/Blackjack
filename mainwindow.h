@@ -30,6 +30,8 @@ private slots:
 
     void on_choose2StyleButton_clicked();
 
+    void toggleMusic();
+
 private:
     void handlePlayerBust();
     void displayPlayerCards();
@@ -58,10 +60,14 @@ private:
     void setFrontImageCard(QLabel *label, const std::shared_ptr<Card> &card);
     void setBackImageCard(QLabel *cardLabel, const std::shared_ptr<Card> &card);
 
+    void setToggleMusic();
+    void setCardSound();
     void setbackgroundSound();
     void setButtonClickSound();
 
+
     void playButtonClickSound();
+    void playCardSound();
 
 
     std::unique_ptr<QMediaPlayer> backgroundSound;
@@ -69,6 +75,8 @@ private:
     std::unique_ptr<QMediaPlayer> cardSound;
     Ui::MainWindow *ui;
     int currentBetAmount = 0;
+    bool soundOn;
+    std::unique_ptr<QPushButton> musicButton;
     std::shared_ptr<Game> game;
 };
 

@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/sounds">
         <file>sounds/throw_card_on_table.mp3</file>
-        <file>sounds/remove_card.mp3</file>
         <file>sounds/Short_and_fast_buttonclick.mp3</file>
         <file>sounds/background.wav</file>
     </qresource>
@@ -112,6 +111,8 @@
         <file>cards2/9_of_hearts.png</file>
         <file>cards2/9_of_spades.png</file>
         <file>cards2/backImage.png</file>
+        <file>icons/musicOff.png</file>
+        <file>icons/musicOn.png</file>
     </qresource>
     <qresource prefix="/background"/>
     <qresource prefix="/backGround"/>
