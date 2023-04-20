@@ -32,6 +32,8 @@ private slots:
 
     void toggleMusic();
 
+    void on_exitButton_clicked();
+
 private:
     void handlePlayerBust();
     void displayPlayerCards();
@@ -39,6 +41,7 @@ private:
 
     void startGame();
     void resetGame();
+    void proccedGameOver();
     void startRound();
     void setupForNewRound();
     void endGame(const QString &message);
@@ -50,9 +53,12 @@ private:
     void updatePlayerInfo();
     void updateCard(QLabel *cardLabel, const std::shared_ptr<Card> card);
 
+    void updateBankLabel();
     void updateBetLabel(int betAmount);
     void onSetBetClicked(int betAmount);
     void hideButtonsAndLabels();
+    void animateMessageLabel(QLabel *errorMessageLabel);
+    void showErrorMessageLabel(int betAmount);
 
     void startCardAnimation();
     void cardAnimation(QLabel *cardLabel, const QPoint &startValue, const QPoint &endValue);

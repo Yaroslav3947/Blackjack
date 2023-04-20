@@ -26,11 +26,9 @@ void MainWindow::setCardSound() {
 
 void MainWindow::setToggleMusic() {
     musicButton = std::make_unique<QPushButton>(this);
-    musicButton->setGeometry(940, 610, 50, 50);
+    musicButton->setGeometry(870, 650, 50, 50);
     connect(musicButton.get(), &QPushButton::clicked, this, &MainWindow::toggleMusic);
-
     toggleMusic();
-
     musicButton->setStyleSheet("QPushButton { border-radius: 10px; }");
 }
 void MainWindow::playCardSound() {
@@ -56,6 +54,10 @@ void MainWindow::setButtonClickSound() {
 
 MainWindow::~MainWindow() {
     delete ui;
+}
+
+void MainWindow::updateBankLabel() {
+    ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
 }
 void MainWindow::playButtonClickSound() {
     if (buttonClickSound->state() == QMediaPlayer::PlayingState) {
@@ -291,15 +293,39 @@ void MainWindow::hideCards() {
         cardLabel->hide();
     }
 }
+void MainWindow::proccedGameOver() {
+    hideCards();
+    std::vector<QWidget*> uiElementsToHide = {
+        ui->playerMessageLabel,
+        ui->dealerMessageLabel,
+        ui->betFrame,
+        ui->dealerInfoFrame,
+        ui->playerInfoFrame,
+        ui->Styleframe,
+        ui->hitButton,
+        ui->standButton,
+        ui->playAgainButton
+    };
+    for (QWidget *uiElement : uiElementsToHide) {
+        uiElement->hide();
+    }
+    ui->gameOverLabel->show();
+    ui->exitButton->move(470,300);
+    ui->exitButton->resize(180,60);
+}
 
 void MainWindow::resetGame() {
-    hideAllButtonsExceptBalanceButton();
-    game->reset();
-    ui->betLabel->setText("Bet: $ 0");
-    ui->dealerMessageLabel->setText("");
-    ui->playerMessageLabel->setText("");
-    ui->hitButton->setEnabled(true);
-    ui->standButton->setEnabled(true);
+    if(game->getPlayer()->getBalance() > 0) {
+        hideAllButtonsExceptBalanceButton();
+        game->reset();
+        ui->betLabel->setText("Bet: $ 0");
+        ui->dealerMessageLabel->setText("");
+        ui->playerMessageLabel->setText("");
+        ui->hitButton->setEnabled(true);
+        ui->standButton->setEnabled(true);
+    } else {
+        proccedGameOver();
+    }
 }
 
 void MainWindow::setupForNewRound() {
@@ -327,7 +353,7 @@ void MainWindow::startRound() {
     setupForNewRound();
     this->startGame();
     ui->dealerSumLabel->setText(QString(" %1").arg(game->getDealer()->getTopCard()->getValue()));
-    ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance() - game->getPlayer()->getBet()));
+    updateBankLabel();
     lockButtons(ui);
     startCardAnimation();
 }
@@ -339,6 +365,7 @@ void MainWindow::hideButtonsAndLabels() {
     ui->playAgainButton->hide();
     ui->playerInfoFrame->hide();
     ui->dealerInfoFrame->hide();
+    ui->gameOverLabel->hide();
 }
 
 void showDealButton(Ui::MainWindow *ui) {
@@ -363,12 +390,44 @@ void MainWindow::onSetBetClicked(int betAmount) {
     playButtonClickSound();
     auto currentBetAmount = game->getPlayer()->getBet();
     if (currentBetAmount + betAmount > game->getPlayer()->getBalance()) {
-//        qDebug() << "You have no money";
+        showErrorMessageLabel(betAmount);
     } else {
         currentBetAmount += betAmount;
         game->getPlayer()->setBet(currentBetAmount);
         ui->betLabel->setText(QString("Bet: $ %1").arg(currentBetAmount));
+        updateBankLabel();
     }
+}
+void MainWindow::animateMessageLabel(QLabel *errorMessageLabel) {
+    QPropertyAnimation* animation = new QPropertyAnimation(errorMessageLabel, "opacity");
+    animation->setDuration(1000);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+    animation->setEasingCurve(QEasingCurve::InOutQuad);
+
+    connect(animation, &QPropertyAnimation::finished, [=]() {
+        errorMessageLabel->hide();
+        delete animation;
+        delete errorMessageLabel;
+    });
+
+    errorMessageLabel->show();
+    animation->start();
+}
+
+void MainWindow::showErrorMessageLabel(int betAmount) {
+    QLabel *errorMessageLabel = new QLabel(ui->betFrame);
+    errorMessageLabel->setText("You don't have enough money to bet $" + QString::number(betAmount));
+    errorMessageLabel->setAlignment(Qt::AlignCenter);
+    errorMessageLabel->setStyleSheet("background-color: transparent; color: white; font-size: 10px; padding: 10px;");
+
+    const auto errorMessageWidth = 280;
+    const auto errorMessageHeight = 50;
+    const auto errorMessageX = 90;
+    const auto errorMessageY = 230;
+    errorMessageLabel->setGeometry(errorMessageX, errorMessageY, errorMessageWidth, errorMessageHeight);
+
+    animateMessageLabel(errorMessageLabel);
 }
 
 void MainWindow::updateBetLabel(int betAmount) {
@@ -428,6 +487,7 @@ void MainWindow::toggleMusic() {
     }
 }
 
-
-
+void MainWindow::on_exitButton_clicked() {
+    qApp->exit();
+}
 

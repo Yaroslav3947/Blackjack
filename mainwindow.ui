@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1014</width>
-    <height>698</height>
+    <height>696</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1062,6 +1062,55 @@ QPushButton:hover {
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="exitButton">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>660</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    background-color: #18a11e;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+QPushButton:hover {
+    background-color: #208b3a;
+}</string>
+    </property>
+    <property name="text">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gameOverLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>190</y>
+      <width>421</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 58pt &quot;Showcard Gothic&quot;;
+color: rgb(43, 43, 43);
+background-color: transparent;
+text-align: center;
+
+</string>
+    </property>
+    <property name="text">
+     <string>Game Over</string>
+    </property>
+   </widget>
    <zorder>dealerCard1</zorder>
    <zorder>hitButton</zorder>
    <zorder>standButton</zorder>
@@ -1086,6 +1135,8 @@ QPushButton:hover {
    <zorder>playerMessageLabel</zorder>
    <zorder>Button_Deal</zorder>
    <zorder>Styleframe</zorder>
+   <zorder>exitButton</zorder>
+   <zorder>gameOverLabel</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
