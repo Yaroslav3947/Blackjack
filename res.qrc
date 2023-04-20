@@ -2,7 +2,7 @@
     <qresource prefix="/sounds">
         <file>sounds/throw_card_on_table.mp3</file>
         <file>sounds/Short_and_fast_buttonclick.mp3</file>
-        <file>sounds/background.wav</file>
+        <file>sounds/backgroundMusic.wav</file>
     </qresource>
     <qresource prefix="/images">
         <file>cards/1_of_clubs.png</file>

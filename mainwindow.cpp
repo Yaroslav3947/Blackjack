@@ -49,7 +49,7 @@ void MainWindow::onBackgroundMusicStateChanged(QMediaPlayer::State state) {
 }
 void MainWindow::setbackgroundSound() {
     backgroundSound = std::make_unique<QMediaPlayer>();
-    backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/background.wav"));
+    backgroundSound->setMedia(QUrl("qrc:/sounds/sounds/backgroundMusic.wav"));
     backgroundSound->setVolume(23);
     backgroundSound->play();
 
@@ -274,7 +274,6 @@ void lockButton(QAbstractButton *button, const int &duration) {
 }
 
 void MainWindow::on_hitButton_clicked() {
-    playButtonClickSound();
     dealCardToPlayer(game);
     updatePlayerInfo();
     handlePlayerBust();
