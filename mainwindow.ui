@@ -1013,7 +1013,6 @@ text-align: center;
     background-color: #a2bdaf;
     border: none;
     color: white;
-    padding: 10px 20px;
     font-size: 12px;
     font-weight: bold;
     border-radius: 10px;
@@ -1047,7 +1046,6 @@ QPushButton:hover {
     background-color: #a2bdaf;
     border: none;
     color: white;
-    padding: 10px 20px;
     font-size: 12px;
     font-weight: bold;
     border-radius: 10px;

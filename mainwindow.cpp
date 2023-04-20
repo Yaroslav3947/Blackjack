@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     game = std::make_shared<Game>();
     hideAllButtonsExceptBalanceButton();
     ui->balanceLabel->setText(QString("Bank: $ %1").arg(game->getPlayer()->getBalance()));
+    ui->style1Label->setStyleSheet("border: 2px solid #a2bdaf;");
     ui->betLabel->setText(QString("Bet: $ %1").arg(0));
     setbackgroundSound();
     setButtonClickSound();
@@ -163,8 +164,8 @@ void MainWindow::endGame(const QString &message) {
         ui->playerMessageLabel->setText("Player Bust!");
         ui->dealerMessageLabel->setText("Dealer Wins!");
     } else if (message == "Tie!") {
-        ui->playerMessageLabel->setText("Tie");
-        ui->dealerMessageLabel->setText("Tie");
+        ui->playerMessageLabel->setText("Tie!");
+        ui->dealerMessageLabel->setText("Tie!");
     }
     ui->balanceLabel->setText(QString("Bank $: %1").arg(game->getPlayer()->getBalance()));
 }
@@ -366,6 +367,7 @@ void MainWindow::hideButtonsAndLabels() {
     ui->playerInfoFrame->hide();
     ui->dealerInfoFrame->hide();
     ui->gameOverLabel->hide();
+    ui->Button_Deal->hide();
 }
 
 void showDealButton(Ui::MainWindow *ui) {
@@ -374,7 +376,6 @@ void showDealButton(Ui::MainWindow *ui) {
 
 void MainWindow::hideAllButtonsExceptBalanceButton() {
     hideButtonsAndLabels();
-    showDealButton(ui);
     animateBetFrame(ui, true);
     animateStyleFrame(ui, true);
 }
@@ -388,6 +389,7 @@ void MainWindow::on_Button_Deal_clicked() {
 
 void MainWindow::onSetBetClicked(int betAmount) {
     playButtonClickSound();
+    showDealButton(ui);
     auto currentBetAmount = game->getPlayer()->getBet();
     if (currentBetAmount + betAmount > game->getPlayer()->getBalance()) {
         showErrorMessageLabel(betAmount);
@@ -438,7 +440,6 @@ void MainWindow::updateBetLabel(int betAmount) {
 }
 
 void MainWindow::on_setBet1_clicked() {
-
     onSetBetClicked(1);
 }
 
@@ -466,14 +467,32 @@ void MainWindow::on_setBet1000_clicked() {
     onSetBetClicked(1000);
 }
 
+//void MainWindow::on_choose1StyleButton_clicked() {
+//    playButtonClickSound();
+//    game->setChangePath(false);
+//}
+
+//void MainWindow::on_choose2StyleButton_clicked() {
+//    playButtonClickSound();
+//    game->setChangePath(true);
+//}
+
 void MainWindow::on_choose1StyleButton_clicked() {
     playButtonClickSound();
     game->setChangePath(false);
+    // Set border color of style1Label to red
+    ui->style1Label->setStyleSheet("border: 2px solid grey;");
+    // Set border color of style2Label to its default
+    ui->style2Label->setStyleSheet("");
 }
 
 void MainWindow::on_choose2StyleButton_clicked() {
     playButtonClickSound();
     game->setChangePath(true);
+    // Set border color of style2Label to red
+    ui->style2Label->setStyleSheet("border: 2px solid grey;");
+    // Set border color of style1Label to its default
+    ui->style1Label->setStyleSheet("");
 }
 
 void MainWindow::toggleMusic() {
